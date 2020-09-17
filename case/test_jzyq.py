@@ -431,7 +431,7 @@ class Test_oder(unittest.TestCase):
         addr_error2 = '1aa6083c'  # 8位的16进制字符基站
         addr_error3 = '1afa6083cf91cb9ebcdefab'  # 17位16进制的字符基站
         addr_error4 = '1aax6083c'  # 超出16进制字符标准的基站
-        print('启用功率测试--基站adrr[{}]有一个在线，2个基站[{},{}]出现字符长度错误、一个含有超出字母a到F的字符的基站addr：[{}]、一个[{}]离线时:'.format(addr, addr_error2, addr_error3,addr_error1,addr_error4))
+        print('启用功率测试-0-基站adrr[{}]有一个在线，2个基站[{},{}]出现字符长度错误、一个含有超出字母a到F的字符的基站addr：[{}]、一个[{}]离线时:'.format(addr, addr_error2, addr_error3,addr_error1,addr_error4))
         instruct = '<req type="power test" duration="1">' \
                    '<anchor addr="{}" />' \
                    '<anchor addr = "{}" />' \
