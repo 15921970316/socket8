@@ -281,7 +281,6 @@ class Test_positioning(unittest.TestCase):
             print(e)
 
         # 停止定位后查询定位状态
-
 # 定位状态
 class Test_rtls_status(unittest.TestCase):
     status = 99
