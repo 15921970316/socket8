@@ -128,6 +128,31 @@ class Test_anchor_cfg(unittest.TestCase):
         cls.assertIn('<anchor addr="{}" db="config saved" status="not connected"/>'.format(addr4_Error),
                      str(cls.msg, 'utf8'))
         print("断言'{}'通过！".format(addr4_Error))
+
+
+    # 对addr为空的基站进行配置
+    @unittest.skipIf(status == -1, u"状态码等于-1，就跳过该测试")
+    def test01004_anchor_cfg(cls):
+        print('对在线的基站进行配置命令:')
+        print(cls.status)
+        addr=''
+        addr1_right = "1aa6083cf920a17"  # 正确存在的基站
+        addr2_right = "1aa6083cf920913"  # 正确存在的基站
+        addr3_right = "1aa6083cf91cb9d"  # 正确存在的基站
+        # addr4_right = "1aa6083cf920a17"  # 正确存在的基站
+        # 指令
+        instruct = '<req type="anchor cfg"><anchor addr="{}" ' \
+                   'x="1.30" y="2.27" z="2.52" syncref="0" ' \
+                   'follow_addr="0" lag_delay="0"></anchor></req>'.format(addr)
+
+        print("请求的数据：", instruct)
+        cls.msg = cls.oder.yq_response(instruct)
+        # 断言配置设置未成功标识符status="not connected"已配置
+
+        print("服务器返回的数据：", str(cls.msg, 'utf8'))
+        cls.assertIn('<anchor addr="{}" db="config saved" status="not connected"/>'.format(addr),str(cls.msg, 'utf8'))
+
+
 # 查询基站列表
 class Test_anchor_list(unittest.TestCase):
     print('查询基站列表')
