@@ -178,8 +178,8 @@ class Test_anchor_list(unittest.TestCase):
             cls.assertIn('<ind type="anchor list">', str(cls.msg, 'utf8'))
             print("断言'基站查询'通过！{}".format(i))
             i += 1
-# 定位算法配置命令
-class Test_anchor_multilateration(unittest.TestCase):
+# 设置定位算法参数
+class Test_multilateration(unittest.TestCase):
     status = 99
 
     @classmethod
@@ -238,8 +238,8 @@ class Test_ranging_test(unittest.TestCase):
         # 断言响应
         cls.assertIn('<ind type="system status" msg="range measurement completes"></ind>', str(cls.msg))
         print("断言'双向测距'通过！")
-# 定位
-class Test_positioning(unittest.TestCase):
+# 启、停定位
+class Test_rtls_start_stop(unittest.TestCase):
     status = 99
 
     @classmethod
