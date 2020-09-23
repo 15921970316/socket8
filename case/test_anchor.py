@@ -1,4 +1,4 @@
-# 测试用例
+# 基站配置和查询测试用例
 from api.anchor_cfg import anchor_cfgs, anchor_list, ranging_test
 from api.jzyq_api import Test_api
 import unittest
