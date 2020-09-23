@@ -4,10 +4,12 @@ import unit
 from api.jzyq_api import Test_api
 import unittest
 import time
+
+# 基站配置
 class  anchor_cfgs():
     def __init__(self):
         self.response=Test_api()
-#对四个基站配置
+    #对四个基站配置
     def anchor_cfg(self,json1,json2,json3,json4):
 
         print('基站进行配置命令:')
@@ -66,7 +68,7 @@ class  anchor_cfgs():
 
         return self.msg
 
-#对单个基站配置
+    #对单个基站配置
     def anchor_cfg_one(self, json1):
         print('基站进行配置命令:')
 
@@ -91,3 +93,62 @@ class  anchor_cfgs():
         self.msg = self.response.yq_response(instruct=instruct)
 
         return self.msg
+# 查询基站列表
+class anchor_list():
+    def __init__(self):
+        self.response = Test_api()
+        # 查询基站列表
+
+    def Test02001_anchor_list(self):
+        print('查询基站列表:')
+        instruct = '<req type="anchor list"/>'  # 指令
+        print('请求的数据：{}'.format(instruct))
+        self.msg = self.response.yq_response(instruct)
+        time.sleep(1)
+        return self.msg
+
+    # 对查询基站列表指令进行1000次重复
+    def test02002_anchor_list(self):
+        count = 1000
+        i = 1
+        print('即将进行1000次的查询基站列表:')
+        print('请求的数据：<req type="anchor list"/>')
+        msg = []
+        while i <= count:
+            instruct = '<req type="anchor list"/>'  # 指令
+
+            self.msg = self.response.yq_response(instruct)
+            print("循环次数{}：{}\n".format(i,self.msg))
+            msg.append(self.msg)
+            # print("\n服务器第{}次返回的数据：".format(i), str(cls.msg, 'utf8'))
+
+            i += 1
+        return msg
+
+#双向测距
+class ranging_test():
+    def __init__(self):
+        self.response=Test_api()
+    def ranging_test(self,num_ranges,res_delay, fin_delay,reverse,**addr):
+        i=[]
+        for n in addr:
+            i.append(addr.get(n))
+        if len(addr)==3:
+            print('双向测距:[{},{},{}]'.format(i[0], i[1], i[2]))
+            instruct = '<req type="range test" num_ranges="{}" res_delay="{}" fin_delay="{}" reverse="{}">' \
+                       '<anchor addr = "{}"/><anchor addr = "{}"/>' \
+                       '<anchor addr = "{}"/> </req>'.format(num_ranges,res_delay,fin_delay,reverse,i[0], i[1], i[2])
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+        elif len(addr)==4:
+            print('双向测距:[{},{},{}]'.format(i[0], i[1], i[2],i[3]))
+            instruct = '<req type="range test" num_ranges="{}" res_delay="{}" fin_delay="{}" reverse="{}">' \
+                       '<anchor addr = "{}"/><anchor addr = "{}"/>' \
+                       '<anchor addr = "{}"/><anchor addr = "{}"/> </req>'.format(num_ranges, res_delay, fin_delay, reverse, i[0], i[1],
+                                                             i[2],i[3])
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+        else:
+            return 0

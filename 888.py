@@ -198,18 +198,40 @@
 # print(addr)
 # print('%.4f' %h2f(int(addr,16)))
 # import requests
-# requests.get("10.14.1.88:59334")
+# requests.post("10.14.1.88:59334")
+#
+# #
+# a=0
+# x=2
+# while a<21:
+#     x*=2
+#
+#     a+=1
+# print(x)
+# import time
+# import datetime
+# print(int(time.time()))
+# a=int(time.time())
+# a=1899854235
+# print(datetime.datetime.utcfromtimestamp(a))
+# instruct=b'<req type="anchor list"/>'
+# print(bytes(instruct, encoding="utf-8"))
+# print(instruct )
 
-a=0
-x=2
-while a<21:
-    x*=2
+# a={a=1,"b":2,"c":3}
+# print(a)
 
-    a+=1
-print(x)
-import time
-import datetime
-print(int(time.time()))
-a=int(time.time())
-a=1899854235
-print(datetime.datetime.utcfromtimestamp(a))
+def ss(**addr):
+    print(*addr)
+    i = []
+
+    print(len(addr))
+    print('елЪЧ{}'.format(addr))
+    for n in addr:
+        print(n)
+
+        print(addr.get(n))
+        i.append(addr.get(n))
+
+    print(i[1])
+ss(a=1,b=2,c=3,asasd=212)
