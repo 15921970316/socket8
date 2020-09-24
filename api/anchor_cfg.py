@@ -1,8 +1,4 @@
-import os
-
-import unit
 from api.jzyq_api import Test_api
-import unittest
 import time
 
 # 基站配置
@@ -93,6 +89,7 @@ class  anchor_cfgs():
         self.msg = self.response.yq_response(instruct=instruct)
 
         return self.msg
+
 # 查询基站列表
 class anchor_list():
     def __init__(self):
@@ -133,7 +130,16 @@ class ranging_test():
         i=[]
         for n in addr:
             i.append(addr.get(n))
-        if len(addr)==3:
+        if len(addr) == 2:
+            print('双向测距:[{},{},{}]'.format(i[0], i[1], i[2]))
+            instruct = '<req type="range test" num_ranges="{}" res_delay="{}" fin_delay="{}" reverse="{}">' \
+                       '<anchor addr = "{}"/><anchor addr = "{}"/>' \
+                       '</req>'.format(num_ranges, res_delay, fin_delay, reverse, i[0], i[1],
+                                                             )
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+        elif len(addr)==3:
             print('双向测距:[{},{},{}]'.format(i[0], i[1], i[2]))
             instruct = '<req type="range test" num_ranges="{}" res_delay="{}" fin_delay="{}" reverse="{}">' \
                        '<anchor addr = "{}"/><anchor addr = "{}"/>' \
@@ -152,3 +158,68 @@ class ranging_test():
             return self.msg
         else:
             return 0
+
+#通讯测试
+class comm_test():
+    def __init__(self):
+        self.response=Test_api()
+    def comm_test(self,json):
+        count = json[0][0]
+        period=json[0][1]
+        addr1=json[0][2]
+        addr2 = json[0][3]
+
+        if len(json[0])-2==2:
+            print('启用通信测试命令--2个基站启动通信测试命令:[{},{}]'.format(addr1, addr2))
+            # 其中count是发送测试数据包的次数，1~65535；period是每次发送的间隔，单位毫秒ms，0~255
+            instruct = '<req type="comm test" count="{}" period="{}"><anchor ' \
+                       'addr = "{}" />' \
+                       '<anchor addr = "{}" /></req>'.format(count,period,addr1, addr2)  # 指令
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+        elif len(json[0])-2==3:
+            addr3 = json[0][4]
+
+            print('启用通信测试命令--3个基站启动通信测试命令:[{},{},{}]'.format(addr1, addr2, addr3))
+            # 其中count是发送测试数据包的次数，1~65535；period是每次发送的间隔，单位毫秒ms，0~255
+            instruct = '<req type="comm test" count="{}" period="{}"><anchor ' \
+                       'addr = "{}" />' \
+                       '<anchor addr = "{}" /><anchor addr = "{}" /></req>'.format(count, period, addr1, addr2,
+                                                                                   addr3)  # 指令
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+        elif len(json[0])-2==4:
+            addr3 = json[0][4]
+            addr4 = json[0][5]
+            print('启用通信测试命令--4个基站启动通信测试命令:[{},{},{},{}]'.format(addr1, addr2, addr3,addr4))
+            # 其中count是发送测试数据包的次数，1~65535；period是每次发送的间隔，单位毫秒ms，0~255
+            instruct = '<req type="comm test" count="{}" period="{}"><anchor ' \
+                       'addr = "{}" />' \
+                       '<anchor addr = "{}" /><anchor addr = "{}" /><anchor addr = "{}" /></req>'.format(count, period, addr1, addr2,
+                                                                                   addr3,addr4)  # 指令
+            print("请求的数据：", instruct)
+            self.msg = self.response.yq_response2(instruct)
+            return self.msg
+
+# 定位天线延迟配置
+class antenna_cfg():
+    status = 99
+    def __init__(self):
+        self.response = Test_api()
+
+    # 定位天线延迟配置--所配置的基站全部是在线状态
+    def antenna_cfg(self,json):
+        addr=json[0][0]
+        ant_delay=json[0][1]#16位接收天线延迟，单位是128×499.2MHz，即约15.65ps（皮秒），DW1000用该值来校正接收时间戳TimeStamp，0~65535
+        ant_delay_tx = json[0][2]#16位发射天线延迟，单位是128×499.2MHz，即约15.65ps（皮秒），DW1000用该值来校正发射时间戳TimeStamp，0~65535
+
+        print('定位天线延迟配置:[addr={},ant_delay={},ant_delay_tx={}]'.format(addr, ant_delay, ant_delay_tx))
+        # 其中count是发送测试数据包的次数，1~65535；period是每次发送的间隔，单位毫秒ms，0~255
+        instruct = '<req type="antenna cfg"><anchor addr="{}" ant_delay_rx="{}" ant_delay_tx="{}"/></req>' \
+            .format(addr,ant_delay,ant_delay_tx)  # 指令
+
+        print("请求的数据：", instruct)
+        self.msg = self.response.yq_response(instruct)
+        return self.msg

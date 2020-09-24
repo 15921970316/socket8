@@ -109,7 +109,7 @@
     "y": 8.8888,
     "z": 3.5555
   },
-    "data11": {
+  "data11": {
     "addr": "1aa6083cf91cb9dd",
     "syncref": 1,
     "follow_addr": 0,
@@ -120,7 +120,7 @@
     "y": 8.8888,
     "z": 3.5555
   },
-      "data12": {
+  "data12": {
     "addr": "1aa6y08Xcf91c9",
     "syncref": 1,
     "follow_addr": 0,
@@ -131,7 +131,7 @@
     "y": 8.8888,
     "z": 3.5555
   },
-    "data13": {
+  "data13": {
     "addr": "1aa6083cf920a17",
     "syncref": 0,
     "follow_addr": 0,
@@ -142,7 +142,7 @@
     "y": 0,
     "z": 0
   },
-      "data14": {
+  "data14": {
     "addr": "1aa6083cf920a17",
     "syncref": 1.888,
     "follow_addr": 0,
@@ -153,7 +153,7 @@
     "y": 0,
     "z": 0
   },
-      "data15": {
+  "data15": {
     "addr": "1aa6083cf920a17",
     "syncref": "",
     "follow_addr": 0,
@@ -164,7 +164,7 @@
     "y": 0,
     "z": 0
   },
-      "data16": {
+  "data16": {
     "addr": "1aa6083cf920a17",
     "syncref": "a",
     "follow_addr": 0,
@@ -175,7 +175,7 @@
     "y": 0,
     "z": 0
   },
-      "data17": {
+  "data17": {
     "addr": "1aa6083cf920a17",
     "syncref": "嗨",
     "follow_addr": 0,
@@ -186,8 +186,7 @@
     "y": 0,
     "z": 0
   },
-
-        "data18": {
+  "data18": {
     "addr": "1aa6083cf920a17",
     "syncref": "!@",
     "follow_addr": 0,
@@ -198,7 +197,7 @@
     "y": 0,
     "z": 0
   },
-    "data19": {
+  "data19": {
     "addr": "1aa6083cf91cb9d",
     "syncref": 0,
     "follow_addr": 0,
@@ -209,7 +208,7 @@
     "y": 2.8888,
     "z": -1.2222
   },
-    "data20": {
+  "data20": {
     "addr": "1aa6083cf91cb9d",
     "syncref": 0,
     "follow_addr": 0,
@@ -220,7 +219,7 @@
     "y": 0.23,
     "z": 0.1
   },
-      "data21": {
+  "data21": {
     "addr": "1aa6083cf91cb9d",
     "syncref": 0,
     "follow_addr": 0,
@@ -231,7 +230,7 @@
     "y": 200,
     "z": 108
   },
-      "data22": {
+  "data22": {
     "addr": "1aa6083cf91cb9d",
     "syncref": 0,
     "follow_addr": 0,
@@ -242,7 +241,7 @@
     "y": "bb",
     "z": "a1b2c"
   },
-        "data23": {
+  "data23": {
     "addr": "1aa6083cf91cb9d",
     "syncref": 0,
     "follow_addr": 0,
@@ -253,45 +252,103 @@
     "y": 0.23,
     "z": "a2#"
   },
-          "ranging_test_data1": {
-    "num_ranges": 100,
+  "ranging_test_data1": {
+    "num_ranges": "100",
     "res_delay": "",
     "fin_delay": "",
-    "reverse": 1,
-   "addr1": "1aa6083cf920a17",
-   "addr2": "1aa6083cf920913",
-   "addr3": "1aa6083cf91cb9d",
-   "addr4": "1aa6083cf91cb9e"
-          },
-       "ranging_test_data2": {
-    "num_ranges": -1,
+    "reverse": "1",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d",
+    "addr4": "1aa6083cf91cb9e"
+  },
+  "ranging_test_data2": {
+    "num_ranges": "-1",
     "res_delay": "",
     "fin_delay": "",
-    "reverse": 1,
-   "addr1": "1aa6083cf920a17",
-   "addr2": "1aa6083cf920913",
-   "addr3": "1aa6083cf91cb9d",
-   "addr4": "1aa6083cf91cb9e"
-          },
+    "reverse": "1",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d",
+    "addr4": "1aa6083cf91cb9e"
+  },
+  "ranging_test_data3": {
+    "num_ranges": "100",
+    "res_delay": "",
+    "fin_delay": "",
+    "reverse": "0",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d",
+    "addr4": "1aa6083cf91cb9e"
+  },
+  "ranging_test_data4": {
+    "num_ranges": "100",
+    "res_delay": "",
+    "fin_delay": "",
+    "reverse": "1",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d" ,
+    "addr4": "1aa6083cf91cb9e"
+  },
+    "comm_test1": {
+    "count": "100",
+    "period": "10",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d"
+  },
+    "comm_test2": {
+    "count": "100",
+    "period": "10",
+    "addr1": "1aa6083cf920a19",
+    "addr2": "1aa6083cf920919",
+    "addr3": "1aa6083cf91cb99",
+    "addr4": "1aa6083cf91cb99"
+  },
+    "comm_test3": {
+    "count": "100",
+    "period": "10",
+    "addr1": "1aa6083cf920a17",
+    "addr2": "1aa6083cf920913",
+    "addr3": "1aa6083cf91cb9d",
+    "addr4": "1aa6083cf91cb9e"
+  },
 
-       "ranging_test_data3": {
-    "num_ranges": 100,
-    "res_delay": "",
-    "fin_delay": "",
-    "reverse": 0,
-   "addr1": "1aa6083cf920a17",
-   "addr2": "1aa6083cf920913",
-   "addr3": "1aa6083cf91cb9d",
-   "addr4": "1aa6083cf91cb9e"
-          },
-         "ranging_test_data4": {
-    "num_ranges": 100,
-    "res_delay": "",
-    "fin_delay": "",
-    "reverse": 1,
-   "addr1": "1aa6083cf920a17",
-   "addr2": "1aa6083cf920913",
-   "addr3": "1aa6083cf91cb9d",
-   "addr4": "1aa6083cf91cb9e"
-          }
+      "antenna_cfg1": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "16492",
+    "ant_delay_tx": "16492"
+  },
+        "antenna_cfg2": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "0",
+    "ant_delay_tx": "16492"
+  },
+          "antenna_cfg3": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "-1",
+    "ant_delay_tx": "16492"
+  },
+            "antenna_cfg4": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "65536",
+    "ant_delay_tx": "16492"
+  },
+              "antenna_cfg5": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "655",
+    "ant_delay_tx": "65536"
+  },
+              "antenna_cfg6": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "6553",
+    "ant_delay_tx": "-1"
+  },
+                "antenna_cfg7": {
+    "addr": "1aa6083cf920a17",
+    "ant_delay": "6553",
+    "ant_delay_tx": "65535"
+  }
 }

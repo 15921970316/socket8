@@ -80,10 +80,14 @@ class Test_anchor_cfgs(unittest.TestCase):
         json1 = unit.read_name_data(filename, "data5")
         cls.msg = cls.anchor_cfg1.anchor_cfg_one(json1)
         print("服务器返回的数据：", str(cls.msg, 'utf8'))
-        cls.assertIn('<anchor addr="{}" db="config saved" status="not connected"/>'.format(json1[0][0]),
-                     str(cls.msg, 'utf8'))
-        print("断言'{}'配置通过！".format(json1[0][0]))
+        try:
 
+            cls.assertIn('<anchor addr="{}" db="config saved" status="not connected"/>'.format(json1[0][0]),
+                         str(cls.msg, 'utf8'))
+            print("断言'{}'配置通过！".format(json1[0][0]))
+
+        except Exception as e:
+            print(e)
 # 对addr为纯数字的基站进行配置
     @unittest.skipIf(status == -1, u"状态码等于-1，就跳过该测试")
     def test_anchor_cfg_addr2(cls):
