@@ -32,8 +32,8 @@ suite.addTest(unittest.makeSuite(Test_log_cfg))  # 诊断信息配置命令接�
 suite.addTest(unittest.makeSuite(Test_rtls_start_stop))  # 启、停定位接口测试
 suite.addTest(unittest.makeSuite(Test_rtls_status))  # 定位和定位状态接口测试
 suite.addTest(unittest.makeSuite(Test_reset_appoint_anchor))  # 重启基站接口测试
-
-
+# runner =   HTMLTestRunner_PY3.HTMLTestRunner()
+# runner.run(suite)
 # suite.addTest(Test_oder('test01002_anchor_cfg_Error'))#接口测试
 # 定义测试报告的名称
 t = time.time()

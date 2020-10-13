@@ -9,10 +9,10 @@ import json
 
 
 def assert_common(httpcode, success, code, message, response, self):
-    self.assertEqual(httpcode, response.status_code)  # 断言响应状态码
-    self.assertEqual(success, response.json().get("success"))  # 断言success
-    self.assertEqual(code, response.json().get("code"))  # 断言code
-    self.assertIn(message, response.json().get("message"))  # 断言message
+    self.assertEqual(httpcode, response.status_code)  #
+    self.assertEqual(success, response.json().get(""))  #
+    self.assertEqual(code, response.json().get(""))  #
+    self.assertIn(message, response.json().get(""))  #
 
 # 读取登录数据的函数
 # 1 定义读取数据的函数，并从外界接收文件名

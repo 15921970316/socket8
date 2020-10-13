@@ -34,3 +34,7 @@ class Test_rf_cfg(unittest.TestCase):
         cls.assertIn('status="config sent"', str(cls.msg))  # 断言
         print("断言'射频配置命令'通过！")
 
+
+
+
+

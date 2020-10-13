@@ -1,237 +1,150 @@
-# # # -*- coding: cp936 -*-
-# # import struct  # 16Ω¯÷∆◊™ªª∏°µ„–Õ
-# # import os
-# # import sys
-# # import xlwt
-# # import xlrd
-# #
-# #
-# # # from xlrd import *
-# #
-# # def learn_to_pack_func():
-# #     ''
-# #     while (1):
-# #         op_id = int(raw_input('please select float to hex(0) or hex to float(1),other value to quit:'))
-# #         if op_id == 0:
-# #             num = float(raw_input('please input the float number:'))
-# #             result = struct.pack('>f', num).encode('hex')
-# #             print
-# #             result
-# #         elif op_id == 1:
-# #             num = str(raw_input('please input the hex number:'))
-# #             str1 = num[2:]
-# #             str2 = struct.unpack('>f', (str1.decode('hex')))
-# #             print
-# #             str2
-# #         else:
-# #             break
-# #     return 0
-# #
-# #
-# # def read_data_from_excel(filePath, readData):
-# #     ''
-# #     # read data from excel
-# #     bk = xlrd.open_workbook(filePath)
-# #     shxrange = range(bk.nsheets)
-# #     try:
-# #         sh = bk.sheet_by_name('Sheet1')
-# #     except:
-# #         print
-# #         "no sheet in %s named Sheet1" % fname
-# #     # ªÒ»°–– ˝
-# #     nrows = sh.nrows
-# #     # ªÒ»°¡– ˝
-# #     ncols = sh.ncols
-# #     # ªÒ»° ˝æ›
-# #     for i in range(0, nrows):
-# #         for j in range(0, ncols):
-# #             readData.append(sh.cell(i, j).value)
-# #     return 0
-# #
-# #
-# # def save_data_to_excel(filePath, writeData):
-# #     ''
-# #     bk = xlwt.Workbook(encoding='utf-8')
-# #     ws = bk.add_sheet('Sheet1', cell_overwrite_ok=False)
-# #
-# #     for i, row in enumerate(writeData):
-# #         for j, clo in enumerate(row):
-# #             ws.write(i, j, clo)
-# #     bk.save(filePath)
-# #
-# #
-# # def LEEE754Data_Hex_To_Float_Translate():
-# #     ''
-# #     cwd = os.getcwd()
-# #     path = cwd + '\data.xls'
-# #     path_1 = cwd + '\data_1.xls'
-# #     Data_Source = []
-# #     Data_Result = []
-# #     # ªÒ»° ˝æ›
-# #     read_data_from_excel(path, Data_Source)
-# #     #  ˝æ›◊™ªª
-# #     for i in range(len(Data_Source)):
-# #         num = Data_Source[i]
-# #         str1 = num[2:]
-# #         str2 = struct.unpack('>f', (str1.decode('hex')))
-# #         Data_Result.append(str2)
-# #     # ±£¥Ê ˝æ›
-# #     save_data_to_excel(path_1, Data_Result)
-# #     return 0
-# #
-# #
-# # def main():
-# #     ''
-# #     op_mode = int(raw_input('please select opreation mode(0:auto,1:manual):'))
-# #     if 0 == op_mode:
-# #         LEEE754Data_Hex_To_Float_Translate()
-# #     elif 1 == op_mode:
-# #         learn_to_pack_func()
-# #     else:
-# #         print('error')
-# #
-# #
-# # if __name__ == '__main__':
-# #     main()
-# #
-# # def fix2float(v, s=False, w=24, f=15):
-# #     # v  ‰»Î16Ω¯÷∆◊÷∑˚¥Æ example 'f1'
-# #     # s  «∑Ò «”–∑˚∫≈ ‰≥ˆ example  1
-# #     # w  ‰»Î÷µŒªøÌ      example  8
-# #     # f –° ˝ŒªøÌ        example  4
-# #     # return           -0.9375
-# #     din = int(v, 16)
-# #     max_num = 2 ** w
-# #
-# #     if (s and din >= max_num / 2):
-# #         x = din ^ (max_num - 1)
-# #         v_bin = '{0:0{1}b}'.format(x + 1, w)
-# #         fraction = int(v_bin[w - f:], 2) / float(2 ** f)
-# #         intdata = int(v_bin[:w - f], 2)
-# #         x = -(fraction + intdata)
-# #     else:
-# #         v_bin = '{0:0{1}b}'.format(din, w)
-# #         fraction = int(v_bin[w - f:], 2) / float(2 ** f)
-# #         intdata = int(v_bin[:w - f], 2)
-# #         x = fraction + intdata
-# #     return x
-# # b='65 59ddfd4d1337f73f abd6fbc461281140 0000000000000000 1ec032cd0001cade'
-# # a=' E162606DC362FB3F EAE4C6FEE32C1140  0000000000000000'
-# # c='4145B4A2'
-# # print(fix2float(c))
-# # # print(a.encode('utf-8', 'strict'))
-# #
+# import binascii
 # import ctypes
 # import struct
+# def aa(XYZ):
+#     list1 = []
+#     for i, j in zip(XYZ[::2], XYZ[1::2]):
+#         list1.append(i + j)
+#     k = 8
+#     addr=''
+#     while k > 0:
+#         k -= 1
+#         addr += list1[k]
 #
-# x="1112adiuhik"
-# a=1
-# for i in x:
-#     if i=="q":
-#         a=0
+#     return addr
 #
+#
+# print(aa('1b978070baa803c2'))
+# a='01b978070baa803c2'
+# print(binascii.a2b_hex('c203a8ba7080971b'))
+# b=b"\xc2\x03\xa8\xbap\x80\x97\x1b"
+# c=b'\x21'
+# print(binascii.b2a_hex(b))
+# print(int("1b978070baa803c2", 16))
+#
+#
+# STX = 0x2
+# len1 = 63
+# FnCE = 0x42
+# UID = 'c203a8ba7080971b'
+# UID2=int(UID, 16)
+# Version = b'v888788'
+# CRC = 3
+# ETX = 0x3
+# bytes = struct.pack('<bhb', STX, len1, FnCE)
+# bt1 = struct.pack('<Q',UID2)
+# # bt1=b'\xc2\x03\xa8\xbap\x80\x97\x1b'
+# bt3 = struct.pack("<54s", Version)
+# bt4 = struct.pack('<hb', CRC, ETX)
+# bytes1 = bytes + bt1 + bt3 + bt4
+#
+#
+# def unpack_helper(fmt, data):
+#     size = struct.calcsize(fmt)
+#     return struct.unpack(fmt, data[:size]), data[size:]
+#
+#
+# def dec_hex(str1):  # ÂçÅËΩ¨ÂçÅÂÖ≠
+#     a = str(hex(eval(str1)))
+#     b = a.replace("0x", '')
+#     print('ÂçÅËøõÂà∂  \t%s\tÂçÅÂÖ≠ËøõÂà∂\t%s' % (str1, a))
+#     return b
+#
+#
+# def hex_dec(str2):  # ÂçÅÂÖ≠ËΩ¨ÂçÅ
+#     b = eval("0x" + str2)
+#     print('---111',b)
+#     # a = str(b).replace("0x", '')
+#     #print('ÂçÅÂÖ≠ËøõÂà∂\t%s\tÂçÅËøõÂà∂  \t%s' % (str2, a))
+#     print('ÂçÅÂÖ≠ËøõÂà∂\t%s\tÂçÅËøõÂà∂  \t%x' % (str2, b))
+#
+#
+#
+#
+#
+# import struct
+# import ctypes
+# import binascii
+#
+# def makePkt():
+#     #‰æãÂ¶ÇÊåâÁÖßtlvÊ†ºÂºè‰∏âÂÖÉÁªÑÁöÑÂΩ¢ÂºèÂ≠òÂÇ®Âá†‰∏™Â≠óÊÆµÊï∞ÊçÆ
+#     name = (1,6,b'python')
+#     nas_ident = (2,4,b'xian')
+#     #ÂàõÂª∫‰∏Ä‰∏™ÂÜÖÂ≠òÂå∫Â≠òÂÇ®ÂØπÂ∫îÁöÑÊï∞ÊçÆÂ≠óÊÆµ
+#     buffer = ctypes.create_string_buffer(128)
+#     offset = 7
+#     #name filed
+#     fmt = struct.Struct('II6s')
+#     struct.pack_into('II6s',buffer,offset,*name)
+#     offset += fmt.size
+#     #nas_ident
+#     fmt = struct.Struct('II4s')
+#     struct.pack_into('II4s',buffer,offset,*nas_ident)
+#     offset += fmt.size
+#     print(binascii.hexlify(buffer))
+#     return binascii.hexlify(buffer) #ËΩ¨ÂåñÊàêÂ∫èÂàóÂåñÁºñÁ†Å
+#
+# def parsePkt(pkt):
+#     unpkt = binascii.unhexlify(pkt)
+#     offset = 0
+#     #name
+#     fmt = struct.Struct('b15s')
+#     name_tag,name_len,name_value = struct.unpack_from('b15s',unpkt,offset)
+#     offset += fmt.size
+#     #nas_ident
+#     fmt = struct.Struct('b15s')
+#     nas_tag,nas_len,nas_value = struct.unpack_from('b15s',unpkt,offset)
+#     offset += fmt.size
+#     print(name_tag,'+',name_len,'+',name_value)
+#     print(nas_tag,'+',nas_len,'+',nas_value)
+
+# if __name__ =="__main__":
+#     pkt = makePkt()
+#     parsePkt(b'!AnchorHeartbeat')
+
+# print(struct.pack('h', 63))
+# a= b'\0x2'+struct.pack('h', 63)+b'\0x42'+struct.pack('8s',b'01aa6083cf920582')+struct.pack('54s', b'v888788')+struct.pack('h', 3)+b'\0x3'
 # print(a)
-# if a==1:
-#     print("≥‘∑π")
-# a=1.6224
-# # print(hex(a))
-# print(int("3FF8C410E570B22F",16))
-# print(int("2fb270e510c4f83F",16))
-# from ctypes import *
-# def double_to_hex(f):
-#     return hex(struct.unpack('<Q', struct.pack('<d', f))[0])
-#
-# # code = code.decode('utf-8')
-# print(double_to_hex(1.5861))
-# b=str(struct.pack("<f", 1.5861))
-#
-# # str=str(5464).encode("utf-8").decode('hex')
-# # print(str)
-#
-# def h2f(s):
-#     cp = ctypes.pointer(ctypes.c_longlong(s))
-#     fp = ctypes.cast(cp, ctypes.POINTER(ctypes.c_double))
-#     return fp.contents.value
-# def f2h(s):
-#     fp = ctypes.pointer(ctypes.c_double(s))
-#     cp = ctypes.cast(fp, ctypes.POINTER(ctypes.c_longlong))
-#     return hex(cp.contents.value)
-# print(f2h(41.5861))
-# print(h2f(0x3FF8C410E570B22F))
-# print(h2f(0x3410fc18795ef93f))
-# print(type(88))
-# # "1.5856 4.3831  1.6055 4.3463 1.6070 4.3494"
-# x="b'653410fc18795ef93f801ef4f36a80114000000000000000001ec032cd0001cade'"
-# # b'65a0e2056b308ef93f128bf5029479114000000000000000001ec032cd0001cade'
-# # b'65 da23e4b4beaff93f 727de81a8a741140 0000000000000000 1ec032cd0001cade'
-# dat=x.split("'",1)
-# dat_X=dat[1][2:18]
-#
-# dat_Y=dat[1][18:34]
-# dat_Z=dat[1][34:50]
-# dat_adr=dat[1][50:66]
-# aa='0x'+dat_X
-# print(aa)
-# print(dat_X," «Œ“")
-# print(dat_X[::-2]," «Œ“")
-# print(dat_X[::-2]," «Œ“")
-# print(dat_Y)
-# print(dat_Z)
-# print(dat_adr)
-# print(h2f(int(dat_Z)))
-# assa=int(dat_X,16)
-# print(assa)
-# print(h2f(assa))
-#
-# print(dat_X)
-# list1=[]
-# cou=0
-# for i, j in zip(dat_X[::2], dat_X[1::2]):
-#   print (i+j)
-#   list1.append(i+j)
-# print(list1)
-# k=8
-# addr='0X'
-# while k>0:
-#     k-=1
-#     addr+=list1[k]
-# print(addr)
-# print('%.4f' %h2f(int(addr,16)))
-# import requests
-# requests.post("10.14.1.88:59334")
-#
-# #
-# a=0
-# x=2
-# while a<21:
-#     x*=2
-#
-#     a+=1
-# print(x)
-# import time
-# import datetime
-# print(int(time.time()))
-# a=int(time.time())
-# a=1899854235
-# print(datetime.datetime.utcfromtimestamp(a))
-# instruct=b'<req type="anchor list"/>'
-# print(bytes(instruct, encoding="utf-8"))
-# print(instruct )
+# data=(0x2,63,0x42,b'01aa6083cf920582',b'v888788',3,0x3)
+# by=struct.pack('bhb8s54shb',*data)
+# print(by)
 
-# a={a=1,"b":2,"c":3}
-# print(a)
 
-def ss(**addr):
-    print(*addr)
-    i = []
 
-    print(len(addr))
-    print('’€ «{}'.format(addr))
-    for n in addr:
-        print(n)
+# print(hex_dec('01aa6083cf920582'))
+# fmt_head="Q"
+# head,probuf =  unpack_helper(fmt_head,bt1)
+# print('----',bt1,head,probuf)
+# print(dec_hex('13980203186993010459'))
+# # print(binascii.a2b_hex('AnchorHeartbeat'))
+#
+# a1=b"test buf"
+# leng=len(a1)
+# fmt="i%ds"%leng
+# buf=struct.pack(fmt,1,a1)
+# print(repr(buf))
 
-        print(addr.get(n))
-        i.append(addr.get(n))
 
-    print(i[1])
-ss(a=1,b=2,c=3,asasd=212)
+STX = 0x2
+len1 = 63
+FnCE = 0x42
+UID = b'01aa6083cf920582'
+# print(int(UID, 16))
+UID2=int(UID, 16)
+Version = b'v888788'
+CRC = 322
+ETX = 0x3
+s=bytearray
+
+print(s)
+data=(0x2,63,0x42,UID,b'v888788',3,0x3)
+a=bytes.fromhex('01aa6083cf920582')
+b=('v888788')
+print(a,b,bytes(0x3),hex(63))
+
+b=b'C\xff\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00D"\x02\t\x14\x00'
+
+print(b.hex().encode(encoding="utf-8"))
+
+
+
