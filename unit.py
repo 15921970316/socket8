@@ -14,7 +14,7 @@ def assert_common(httpcode, success, code, message, response, self):
     self.assertEqual(code, response.json().get(""))  #
     self.assertIn(message, response.json().get(""))  #
 
-# 读取登录数据的函数
+#
 # 1 定义读取数据的函数，并从外界接收文件名
 def read_data(filename):
 
@@ -29,9 +29,18 @@ def read_data(filename):
         for data in jsonData:
             result_list.append(tuple(data.values()))
         #   return 返回
-
+        f.close()
     return result_list
+def get_json_data(json_path):
+    # 获取json里面数据
 
+    with open(json_path, 'rb') as f:
+        # 定义为只读模型，并定义名称为f
+        params = json.load(f)
+        # 加载json文件中的内容给params
+    f.close()
+    # 关闭json读模式
+    return params
 # 1 定义读取模块数据的函数，并从外界接收数据文件路径和要读取的接口模块
 def read_name_data(filename, name):
     # 2 使用内置函数open打开外界传入的文件名
@@ -45,7 +54,7 @@ def read_name_data(filename, name):
         # 讲数据转化为元组后添加到列表中
         result_list.append(tuple(data.values()))
     # 5 打印结果，并return返回
-
+        f.close()
     return result_list
 
 

@@ -1,32 +1,32 @@
 {
   "data1": {
-    "addr": "1aa6083cf920a17",
+    "addr": "01aa6083cf222222",
     "syncref": 1,
     "follow_addr": 0,
     "lag_delay": 0,
-    "syncrefanchor_addr": "1aa6083cf91cb9d",
+    "syncrefanchor_addr": "01aa6083cf920888",
     "syncrefanchor_rfdistance": 0,
     "x": 1.0222,
     "y": 0,
     "z": 0
   },
   "data2": {
-    "addr": "1aa6083cf91cb9d",
+    "addr": "01aa6083cf333333",
     "syncref": 0,
     "follow_addr": 0,
     "lag_delay": 0,
-    "syncrefanchor_addr": "1aa6083cf91cb9d",
+    "syncrefanchor_addr": "01aa6083cf920888",
     "syncrefanchor_rfdistance": 0,
     "x": 1.0222,
     "y": 0,
     "z": 0
   },
   "data3": {
-    "addr": "1aa6083cf920913",
+    "addr": "01aa6083cf111111",
     "syncref": 0,
     "follow_addr": 0,
     "lag_delay": 0,
-    "syncrefanchor_addr": "1aa6083cf91cb9d",
+    "syncrefanchor_addr": "01aa6083cf920888",
     "syncrefanchor_rfdistance": 0,
     "x": 1.0222,
     "y": 0,
