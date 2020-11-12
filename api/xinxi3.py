@@ -73,7 +73,6 @@ def Blink_info():
             if   X != sep_c:
                     try:
                         n=0
-
                         for Tag_Addr in json1[0]:
                             # t=time1+ cou.BINK(100, 100, 0)+ cou.BINK(json3[0][0]+n,json3[0][1]+n, 3)-cou.BINK(json3[0][0]+n,json3[0][1]+n, 1)
                             # t=time1+ cou.BINK(100, 100, 0)+ cou.BINK(json3[0][0],json3[0][1], 3)-cou.BINK(json3[0][0],json3[0][1], 1)
