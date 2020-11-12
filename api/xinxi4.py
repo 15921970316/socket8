@@ -12,9 +12,12 @@ import datetime
 
 sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-Rx_seq=0
-tts=0
-Blink_seq=0
+Rx_seq = 0
+tts = 0
+Blink_seq = 0
+Blink_tts = 0
+
+
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
     # print('分类接收打印引擎返回信息', ms)
@@ -34,7 +37,7 @@ def Recv_info(ms):
         elif ms[0] == 0x44:
             print("配置基站4射频参数：", hex(ms[0]))
         elif ms[0] == 0x57:
-            cou.rtls =1
+            cou.rtls = 1
             print('4定位开始：', hex(ms[0]), ms[1])
             if ms[1] == 1:
                 bs = 1
@@ -59,59 +62,61 @@ def Blink_info():
     json2 = unit.read_name_data(filename, "Blik_time")
     Blink_time = 1 / float(json2[0][0])
     print('3基站Blink发送频率为:{}HZ'.format(json2[0][0]))
-    sep = 0    # 读取标签的addr文件
+    sep = 0  # 读取标签的addr文件
     filename = unit.BASE_DIR + "\data\Bilk_data.json"
     json1 = unit.read_name_data(filename, "Tag_Addr")
     json2 = unit.read_name_data(filename, "Blik_time")
     Blink_time = 1 / float(json2[0][0])
     print('3基站Blink发送频率为:{}HZ'.format(json2[0][0]))
-
-    time1 = cou.time4 + cou.BINK(7, 5, 4) - cou.BINK(7, 5, 1)
-    sep_c=0
-    X=0
-
+    json3 = unit.read_name_data(filename, "XYZ")
+    X=json3[0][0]
+    Y=json3[0][1]
+    Z=json3[0][2]
+    X = -1
     while True:
             sep_c = Blink_seq
+            time1 = Blink_tts
+            t = time1 + cou.BINK(0, 100, 0) + cou.BINK(80, 80, 4) - cou.BINK(80, 80, 1)
 
-            if   X != Blink_seq:
+            if X != Blink_seq:
                 try:
-                    for Tag_Addr in json1[0]:
-                        sk.send(BLINK_Report(sep_c, Tag_Addr, time1))
-                        print('Blink_info4----', sep_c, Tag_Addr, time1)
-                    time.sleep(Blink_time)
-                    time1 = cou.time4 + cou.BINK(7, 5, 4) - cou.BINK(7, 5, 1)
+                    n=0
 
+                    for Tag_Addr in json1[0]:
+                        # t=time1+cou.BINK(0, 100, 0)+ cou.BINK(json3[0][0]+n,json3[0][1]+n, 4)-cou.BINK(json3[0][0]+n,json3[0][1]+n, 1)
+                        # t=time1+cou.BINK(0, 100, 0)+ cou.BINK(json3[0][0],json3[0][1], 4)-cou.BINK(json3[0][0],json3[0][1], 1)
+                        sk.send(BLINK_Report(sep_c, Tag_Addr, t))
+                        # print('Blink_info4----', sep_c, Tag_Addr, time1)
+                    # time.sleep(Blink_time)
                     X = sep_c
+                    n += 10
 
                 except Exception as e:
                     print('服务器连接失败--444', e)
-                ...
-            else:
-                 sep_c=0
-                 time1 = cou.time4 + cou.BINK(7, 5, 4) - cou.BINK(7, 5, 1)
+
 
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告
 def CCPRX_Report4():
-    Rxseq = Rx_seq
+    Rxseq = -1
+    x=0
     while True:
-        if Rxseq > 255:
-            Rxseq = 0
-        if Rxseq==Rx_seq:
-            try:
-                t=tts+ cou.BINK(0, 10, 0)
-                print('CCPTX_Report4----', Rxseq, t)
-                sk.send(CCPRX_Report(Rxseq, t))
-                cou.time4=t
-                # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
+        while True:
+            x=Rx_seq
+            if Rxseq!=x:
+                try:
+                    t=tts+ cou.BINK(0, 100, 0)
+                    # print('CCPTX_Report4----', x, t)
+                    sk.send(CCPRX_Report(x, t))
+                    cou.time4=t
+                    # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
+                    Rxseq = Rx_seq
+                    break
+                except Exception as e:
+                    print('CCPRX_Report4', e)
+            else:
+                ...
 
-                Rxseq+=1
-                if Rxseq==256:
-                    Rxseq=0
-            except Exception as e:
-                print('CCPRX_Report4', e)
-        else:
-            ...
-        # 计时器
+# 计时器
 def time_x():
     t = 0b0000000000000000000000000000000011001010
     while True:
@@ -121,6 +126,8 @@ def time_x():
         # time.sleep(0.1)
         cou.time4 = cou.time4 + 1
         t += 1
+
+
 # 心跳间隔是2秒 2秒发送一个心跳包并且收到引擎一个心跳回访 一旦超时未收到双方连接立即中断
 def xintiao2():
     i = 0
@@ -134,6 +141,7 @@ def xintiao2():
         except Exception as e:
             print('服务器连接失败--3', e)
             break
+
 
 while True:
     try:
@@ -152,7 +160,7 @@ while True:
         # t4.start()
 
         while True:
-            if cou.rtls==1:
+            if cou.rtls == 1:
                 t3.start()
                 t2.start()
                 break

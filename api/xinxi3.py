@@ -13,6 +13,8 @@ sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 Rx_seq=0
 tts=0
 Blink_seq=0
+Blink_tts=0
+
 import datetime
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
@@ -27,7 +29,7 @@ def Recv_info(ms):
         elif ms[0] == 0x21:
             ...
 
-            print("基站心跳包3：",hex(ms[0]))
+            # print("基站心跳包3：",hex(ms[0]))
         elif ms[0] == 0x43:
             print("配置基站3定位参数：", hex(ms[0]), hex(ms[1]), hex(ms[2]))
         elif ms[0] == 0x44:
@@ -58,49 +60,50 @@ def Blink_info():
     json2 = unit.read_name_data(filename, "Blik_time")
     Blink_time = 1 / float(json2[0][0])
     print('3基站Blink发送频率为:{}HZ'.format(json2[0][0]))
-    time1 = cou.time3 + cou.BINK(7, 5, 3) - cou.BINK(7, 5, 1)
-    sep_c=Blink_seq
-    X=sep_c
+    json3 = unit.read_name_data(filename, "XYZ")
+    X=json3[0][0]
+    Y=json3[0][1]
+    Z=json3[0][2]
+    X=-1
     while True:
-             if   X != Blink_seq:
-                try:
-                    for Tag_Addr in json1[0]:
-                        sk.send(BLINK_Report(sep_c, Tag_Addr, time1))
-                        print('Blink_info3----', sep_c, Tag_Addr, time1)
-                    time.sleep(Blink_time)
-                    time1 = cou.time3 + cou.BINK(7, 5, 3) - cou.BINK(7, 5, 1)
-                    sep_c=Blink_seq
-                    X = sep_c
-                except Exception as e:
-                    print('服务器连接失败--333', e)
-                ...
-             else:
-                ...
+            sep_c = Blink_seq
+            time1 = Blink_tts
+            t = time1 + cou.BINK(100, 100, 0) + cou.BINK(80, 80, 3) - cou.BINK(80, 80, 1)
+
+            if   X != sep_c:
+                    try:
+                        n=0
+
+                        for Tag_Addr in json1[0]:
+                            # t=time1+ cou.BINK(100, 100, 0)+ cou.BINK(json3[0][0]+n,json3[0][1]+n, 3)-cou.BINK(json3[0][0]+n,json3[0][1]+n, 1)
+                            # t=time1+ cou.BINK(100, 100, 0)+ cou.BINK(json3[0][0],json3[0][1], 3)-cou.BINK(json3[0][0],json3[0][1], 1)
+                            sk.send(BLINK_Report(sep_c, Tag_Addr, t))
+                            # print('Blink_info3----', sep_c, Tag_Addr, time1)                       # time.sleep(Blink_time)
+                        X=sep_c
+                        n+=10
+                    except Exception as e:
+                        print('服务器连接失败--333', e)
+                    ...
+
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告
 def CCPRX_Report3():
-    Rxseq = 0
+    X=-1
     while True:
-        x=Rx_seq
-        if Rxseq > 255:
-            Rxseq = 0
-            print('我到了255了 ccp3',x)
-        if Rxseq==x:
-            try:
-                Rxseq=Rx_seq
-                t=tts+ cou.BINK(10, 10, 0)
-                print('CCPTX_Report3----', Rxseq, t)
-                sk.send(CCPRX_Report(Rxseq, t))
-                cou.time3=t
-                # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
-                Rxseq+=1
-                if Rxseq==256:
-                    Rxseq=0
-                    print('我到了255了000 ccp3')
-
-            except Exception as e:
-                print('CCPRX_Report4', e)
-        else:
-            ...
+        while True:
+            sep_c =Rx_seq
+            if sep_c!=X:
+                try:
+                    t=tts+ cou.BINK(100, 100, 0)
+                    # print('CCPTX_Report3----', x, t)
+                    sk.send(CCPRX_Report(sep_c, t))
+                    cou.time3=t
+                    # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
+                    X = sep_c
+                    break
+                except Exception as e:
+                    print('CCPRX_Report3', e)
+            else:
+                ...
     # 计时器
 def time_x():
     t = 0b0000000000000000000000000000000000100110

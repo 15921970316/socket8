@@ -28,11 +28,11 @@ def BINK(x,y,id):
     if id==1:
         return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
     elif id==2:
-        return int( math.sqrt((10-x)*(10-x)+y*y) /299702547* 499.2e6 * 128.0)
+        return int( math.sqrt((100-x)*(100-x)+y*y) /299702547* 499.2e6 * 128.0)
     elif id==3:
-        return int( math.sqrt((10-x)*(10-x)+(10-y)*(10-y)) /299702547* 499.2e6 * 128.0)
+        return int( math.sqrt((100-x)*(100-x)+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
     elif id==4:
-        return int( math.sqrt(x*x+(10-y)*(10-y)) /299702547* 499.2e6 * 128.0)
+        return int( math.sqrt(x*x+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
 
     elif id==0 and y==0:
         return int((x/299702547)* (499.2e6 * 128.0))

@@ -10,6 +10,8 @@ sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 Rx_seq=0
 tts=0
 Blink_seq=0
+Blink_tts=0
+
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
     # print('分类接收打印引擎返回信息', ms)
@@ -53,49 +55,53 @@ def Blink_info():
     json2 = unit.read_name_data(filename, "Blik_time")
     Blink_time=1/float(json2[0][0])
     print('2基站Blink发送频率为:{}HZ'.format(json2[0][0]))
-    time1 = cou.time2 + cou.BINK(7, 5, 2) - cou.BINK(7, 5, 1)
-    sep_c=Blink_seq
+    json3 = unit.read_name_data(filename, "XYZ")
+    X=json3[0][0]
+    Y=json3[0][1]
+    Z=json3[0][2]
+    X=-1
+
     while True:
-             if   sep_c <= 255:
+            sep_c = Blink_seq
+            time1 = Blink_tts
+            t = time1 + cou.BINK(100, 0, 0) + cou.BINK(80, 80, 2) - cou.BINK(80, 80, 1)
+
+            if   X != sep_c:
                 try:
+                    n=0
 
                     for Tag_Addr in json1[0]:
-                        sk.send(BLINK_Report(sep_c, Tag_Addr, time1))
-                        print('Blink_info2----', sep_c, Tag_Addr, time1)
-                    time.sleep(Blink_time)
-                    time1 = cou.time2 + cou.BINK(7, 5, 2) - cou.BINK(7, 5, 1)
-                    sep_c = Blink_seq
+                        # t=time1+ cou.BINK(100, 0, 0) + cou.BINK(json3[0][0]+n,json3[0][1]+n, 2)-cou.BINK(json3[0][0]+n,json3[0][1]+n, 1)
+                        # t=time1+ cou.BINK(100, 0, 0) + cou.BINK(json3[0][0],json3[0][1], 2)-cou.BINK(json3[0][0],json3[0][1], 1)
+                        sk.send(BLINK_Report(sep_c, Tag_Addr, t))
+                        # print('Blink_info2----', sep_c, Tag_Addr, time1)
+                    # time.sleep(Blink_time)
+                    X = sep_c
+                    n += 10
 
                 except Exception as e:
                     print('服务器连接失败--222', e)
-                ...
-             else:
-                 sep_c=0
-                 time1 = cou.time2 + cou.BINK(7, 5, 2) - cou.BINK(7, 5, 1)
-
 
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告
 def CCPRX_Report2():
-    Rxseq = Rx_seq
+    Rxseq = -1
+    x=0
     while True:
-        if Rxseq > 255:
-            Rxseq = 0
-        if Rxseq==Rx_seq:
-            try:
-                t=tts+ cou.BINK(10, 0, 0)
-                print('CCPTX_Report2----', Rxseq, t)
-                sk.send(CCPRX_Report(Rxseq, t))
-                cou.time2=t
-                Rxseq+=1
-                if Rxseq == 256:
-                    Rxseq=0
-                    print('我到了255了 ccp2')
-
-            except Exception as e:
-                print('CCPRX_Report2', e)
-        else:
-            ...
-
+        while True:
+            x=Rx_seq
+            if Rxseq!=x:
+                try:
+                    t=tts+ cou.BINK(100, 0, 0)
+                    # print('CCPTX_Report2----', x, t)
+                    sk.send(CCPRX_Report(x, t))
+                    cou.time2=t
+                    # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
+                    Rxseq = Rx_seq
+                    break
+                except Exception as e:
+                    print('CCPRX_Report2', e)
+            else:
+                ...
 #计时器
 def time_x():
 
