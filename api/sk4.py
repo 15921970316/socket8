@@ -90,7 +90,7 @@ def BLINK_Report(Seq,Tag_Addr,time):
     # time = 10000 +sqr(200)+sqr(math.sqrt(2)*100)
     # Seq=struct.pack('B', Seq)
     # Tag_Addr = b'cf9aaaaa'
-    b = struct.pack('Q', time)
+    b = struct.pack('q', time)
     Tx_Time = b[0:5]
     LL = 0
     extLen = 0

@@ -46,6 +46,7 @@ def CCPTX_Report(Seq,time):
     CRC = 3
     ETX = 0x3
     data1 = struct.pack('<bhbB', STX, len1, FnCE, Seq)+ Tx_Time
+    # print('CCPTX_Report时间戳',Tx_Time,'FnCE:',struct.pack('b',FnCE))
     data2=struct.pack('hb',CRC, ETX)
     return data1+data2
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告，即CCPRX_Report。
@@ -90,14 +91,3 @@ def BLINK_Report(Seq,Tag_Addr,time):
     data2 = struct.pack('<hbhb',LL,extLen, CRC, ETX)
     # print(data1 + data2)
     return data1+data2
-# import numpy as np
-# np.set_printoptions(suppress=True)
-# ti=time.time()
-
-# a=int(round(time.time() * 1000000000000000000000000000000))
-# BLINK_Report(10,'aaaaaaaaaaaaaaaaa')
-#     x = math.sqrt(20000) / 299702547
-#     x = x * 499.2e6 * 128.0
-# def sqr(d):
-#     z = d * 499.2e6 * 128.0 / 299702547
-#     return int(z)

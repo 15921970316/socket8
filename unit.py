@@ -1,8 +1,8 @@
 import os
+import random
 
-server_state=-10
+server_state = -10
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 # 通用断言函数
 import json
@@ -14,13 +14,12 @@ def assert_common(httpcode, success, code, message, response, self):
     self.assertEqual(code, response.json().get(""))  #
     self.assertIn(message, response.json().get(""))  #
 
+
 #
 # 1 定义读取数据的函数，并从外界接收文件名
 def read_data(filename):
-
     # 2 使用内置函数open打开外界传入的文件名
     with open(filename, mode='r', encoding='utf-8') as f:
-
         # 3 使用内置模块json加载文件
         jsonData = json.load(f)
         # 定义一个存放数据的空列表
@@ -31,6 +30,8 @@ def read_data(filename):
         #   return 返回
         f.close()
     return result_list
+
+
 def get_json_data(json_path):
     # 获取json里面数据
 
@@ -41,6 +42,8 @@ def get_json_data(json_path):
     f.close()
     # 关闭json读模式
     return params
+
+
 # 1 定义读取模块数据的函数，并从外界接收数据文件路径和要读取的接口模块
 def read_name_data(filename, name):
     # 2 使用内置函数open打开外界传入的文件名
@@ -53,8 +56,58 @@ def read_name_data(filename, name):
         result_list = list()
         # 讲数据转化为元组后添加到列表中
         result_list.append(tuple(data.values()))
-    # 5 打印结果，并return返回
+        # 5 打印结果，并return返回
         f.close()
     return result_list
 
+def read_name_data2(filename, name):
+    # 2 使用内置函数open打开外界传入的文件名
+    with open(filename, mode='r', encoding='utf-8') as f:
+        # 3 使用内置模块json加载文件
+        jsonData = json.load(f)
+        # 4 读取数据
+        data = jsonData.get(name)
 
+        # 定义存放数据的空列表
+        result_list = list()
+        # 讲数据转化为元组后添加到列表中
+        result_list.append(data)
+        # 5 打印结果，并return返回
+        f.close()
+    return data.items()
+
+def rw_xyz(count):
+    filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
+    data = {}
+    w = 1111
+    for i in range(count):
+
+        a = "a11111111111{}".format(w)
+        w+=1
+        x = random.randrange(1, 100, 1)  # 随机产生1-100，间隔为2随机整数
+        y = random.randrange(1, 100, 1)  # 随机产生1-100，间隔为2随机整数
+        data[a] = [x, y, 0]
+    with open(filename, 'r') as f:
+        json_data = json.load(f)
+        json_data['Tag_Addr_XYZ'] = data
+    with open(filename, 'w') as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=4)
+    #     dictList = list(data.items())
+    #     dictList1 = []
+    #     dictList2 = list(data)
+    #
+    #     for key in data:
+    #         dictList1.append('"{}":{}'.format(key, data[key]))
+    #     f.close()
+    # return dictList1
+
+
+# #
+# filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Bilk_data.json"
+# json1 =  read_name_data2(filename, "Tag_Addr_XYZ")
+# #
+# # # json1 = rw_xyz(filename, 5)
+# # print(json1 )
+# #
+# for i in json1:
+#     print(i,i[0],i[1][0].type())

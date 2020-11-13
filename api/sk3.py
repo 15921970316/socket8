@@ -71,22 +71,18 @@ def CCPRX_Report(Seq,time):
     STX = 0x2
     len1 = 18
     FnCE = 0x31
-
-    # Src_Addr = b'01aa6083cf333333'
     Src_Addr=binascii.unhexlify('01aa6083cf111111')
-
     # time = time +sqr( math.sqrt(2)*200)
     b = struct.pack('Q', time)
     Tx_Time = b[0:5]
+    # print('次基站CCPRX_Report时间戳',Tx_Time,'FnCE:',struct.pack('b',FnCE))
     LL = 0
     extLen = 0
-    Diagnostics = b'xyz'
     CRC = 3
     ETX = 0x3
-    # data = struct.pack('<bhbB8s5sb78shb', STX, len1, FnCE, Seq, Src_Addr[::-1], Tx_Time, extLen, Diagnostics, CRC, ETX)
     data1 = struct.pack('<bhbB', STX, len1, FnCE, Seq)+Src_Addr[::-1]+ Tx_Time
     data2 = struct.pack('<hbhb',LL,extLen, CRC, ETX)
-
+    # print('原始报文 STX+len1+FnCE+Seq+Src_Addr+time+LL+extLen+CRC+ETX：',STX,len1,FnCE,Seq,'01aa6083cf111111',time,LL,extLen,CRC,ETX)
     return data1+data2
 
 # 在启动TDOA定位后，所有的定位基站会向定位引擎发送定位数据包
