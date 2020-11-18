@@ -8,10 +8,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 import json
 
 
-def assert_common(httpcode, success, code, message, response, self):
-    self.assertEqual(httpcode, response.status_code)  #
+def assert_common(scode, success, code, message, response, self):
+    self.assertEqual(scode, response.status_code)  #
     self.assertEqual(success, response.json().get(""))  #
-    self.assertEqual(code, response.json().get(""))  #
+    self.assertEqual(scode, response.json().get(""))  #
     self.assertIn(message, response.json().get(""))  #
 
 
@@ -76,30 +76,44 @@ def read_name_data2(filename, name):
         f.close()
     return data.items()
 
-def rw_xyz(count):
+def rw_xyz(count,rate):
     filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
     data = {}
-    w = 1111
-    for i in range(count):
+    # data.values()
+    w = 100000000000001
+    if count!=0:
+        for i in range(count):
 
-        a = "a11111111111{}".format(w)
-        w+=1
-        x = random.randrange(1, 100, 1)  # 随机产生1-100，间隔为2随机整数
-        y = random.randrange(1, 100, 1)  # 随机产生1-100，间隔为2随机整数
-        data[a] = [x, y, 0]
-    with open(filename, 'r') as f:
-        json_data = json.load(f)
-        json_data['Tag_Addr_XYZ'] = data
-    with open(filename, 'w') as f:
-        json.dump(json_data, f, ensure_ascii=False, indent=4)
-    #     dictList = list(data.items())
-    #     dictList1 = []
-    #     dictList2 = list(data)
-    #
-    #     for key in data:
-    #         dictList1.append('"{}":{}'.format(key, data[key]))
-    #     f.close()
-    # return dictList1
+            a = "a{}".format(w)
+            w+=1
+            x = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
+            y = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
+            data[a] = [x, y, 0]
+        with open(filename, 'r') as f:
+            json_data = json.load(f)
+            json_data['Tag_Addr_XYZ'] = data
+            json_data['Blik_time']["HZ"] = rate
+        with open(filename, 'w') as f:
+            json.dump(json_data, f, ensure_ascii=False, indent=4)
+            dictList1 = []
+            for key in data:
+                dictList1.append('"{}":{}'.format(key, data[key]))
+
+            print("设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
+            f.close()
+    elif count==0:
+        with open(filename, 'r') as f:
+            json_data = json.load(f)
+            json_data['Blik_time']["HZ"] = rate
+        with open(filename, 'w') as f:
+            json.dump(json_data, f, ensure_ascii=False, indent=4)
+            dictList1 = []
+            for key in data:
+                dictList1.append('"{}":{}'.format(key, data[key]))
+
+            print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
+            f.close()
+
 
 
 # #
