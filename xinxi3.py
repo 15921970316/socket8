@@ -14,7 +14,11 @@ Rx_seq = 0
 tts = 0
 Blink_seq = 0
 Blink_tts = 0
-
+filename = unit.BASE_DIR + "\data\Data.json"
+anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
+list = []
+for i in anchor_cfg_list:
+    list.append(i)
 import datetime
 
 
@@ -72,38 +76,11 @@ def Blink_info():
             time1 = Blink_tts
             # time1 = cou.time3
             try:
-
                 n=0
                 for Tag_Addr in json1:
                     tt =  time1 + cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 3) - cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1)
                     sk.send(BLINK_Report(sep_c, Tag_Addr[0], tt))
                     n += 1
-                # def anchor1():
-                #     tt = cou.BINK(90, 90, 3) - cou.BINK(90, 90, 1)
-                #     sk.send(BLINK_Report(sep_c, addr1, time1 + tt +1))
-                #     print('次基站标签数据包 Blink:',BLINK_Report(sep_c, addr1, time1 + tt +1))
-                #
-                # def anchor2():
-                #     tt = cou.BINK(50, 50, 3) - cou.BINK(50, 50, 1)
-                #     sk.send(BLINK_Report(sep_c, addr2, time1 + tt + 4))
-                #
-                # def anchor3():
-                #     tt = cou.BINK(20, 20, 3) - cou.BINK(20, 20, 1)
-                #     sk.send(BLINK_Report(sep_c, addr3, time1 + tt + 12))
-                #
-                # t1 = threading.Thread(target=anchor1)
-                # t2 = threading.Thread(target=anchor2)
-                # t3 = threading.Thread(target=anchor3)
-                # t1.start()
-                # t2.start()
-                # t3.start()
-                #     # print('Blink_info3----', sep_c, Tag_Addr, time1)                       # time.sleep(Blink_time)
-                # X=sep_c
-                # n=0
-                # for Tag_Addr in json1[0]:
-                #     tt =  Blink_tts+cou.BINK(100, 100, 0) + cou.BINK(json3[0][n][0], json3[0][n][1], 3) - cou.BINK(json3[0][n][0], json3[0][n][1], 1)
-                #     sk.send(BLINK_Report(sep_c, Tag_Addr, tt))
-                #     n += 1
                 X = sep_c
             except Exception as e:
                 print('服务器连接失败--333', e)
@@ -113,14 +90,17 @@ def Blink_info():
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告
 def CCPRX_Report3():
     X = -1
+
+
     while True:
         while True:
+            # print(list[0][0])
             sep_c = Rx_seq
             if sep_c != X:
                 try:
-                    t = tts + cou.BINK(100, 100, 0)
-                    # print('CCPTX_Report3----', x, t)
-                    sk.send(CCPRX_Report(sep_c, t))
+                    t = tts + cou.BINK(list[2][1][0], list[2][1][1], 0)
+                    sk.send(CCPRX_Report(sep_c, t, list[0][0]))
+                    # sk.send(CCPRX_Report(sep_c, t))
                     # print('次基站CCPRX：', CCPRX_Report(sep_c, t))
 
                     cou.time3 = t
@@ -168,7 +148,7 @@ while True:
         json = unit.get_json_data(filename)
         sk.connect((json["ip"], json['port']))
         # sk.connect(('10.14.1.88', 59336))
-        sk.send(zhuce())
+        sk.send(zhuce(list[2][0]))
         # print('次基站3注册信息包:', zhuce())
 
         ms = sk.recv(1024)

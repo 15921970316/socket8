@@ -26,7 +26,7 @@ def xintiao():
 
 
 # 注册数据包  0x2130x42ffffffffv66630x3
-def zhuce():
+def zhuce(addr):
     # STX = 0x2
     # len1 = hex(63)
     # FnCE = 0x42
@@ -40,7 +40,7 @@ def zhuce():
     STX = struct.pack('=B', int('0x2', 16))
     len1 = struct.pack('h', 64)
     FnCE = struct.pack('=B', int('0x42', 16))
-    UID = binascii.unhexlify("01aa6083cf333333")
+    UID = binascii.unhexlify(addr)
     Comm_Type = struct.pack('=b', 5)
     Version = struct.pack('54s', b'v888788')
     CRC = struct.pack('h', 63)
@@ -67,11 +67,11 @@ def CCPTX_Report(Seq):
     return data1+data2
 
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告，即CCPRX_Report。
-def CCPRX_Report(Seq,time):
+def CCPRX_Report(Seq,time,addr):
     STX = 0x2
     len1 = 18
     FnCE = 0x31
-    Src_Addr=binascii.unhexlify('01aa6083cf111111')
+    Src_Addr=binascii.unhexlify(addr)
     # time = time +sqr( math.sqrt(2)*200)
     b = struct.pack('Q', time)
     Tx_Time = b[0:5]
@@ -83,6 +83,7 @@ def CCPRX_Report(Seq,time):
     data1 = struct.pack('<bhbB', STX, len1, FnCE, Seq)+Src_Addr[::-1]+ Tx_Time
     data2 = struct.pack('<hbhb',LL,extLen, CRC, ETX)
     # print('原始报文 STX+len1+FnCE+Seq+Src_Addr+time+LL+extLen+CRC+ETX：',STX,len1,FnCE,Seq,'01aa6083cf111111',time,LL,extLen,CRC,ETX)
+    # print(data1+data2)
     return data1+data2
 
 # 在启动TDOA定位后，所有的定位基站会向定位引擎发送定位数据包

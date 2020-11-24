@@ -647,22 +647,24 @@ import cou
 import unit
 
 filename = unit.BASE_DIR + "\data\Bilk_data.json"
-json1 = unit.read_name_data(filename, "Tag_Addr")
-json2 = unit.read_name_data(filename, "Blik_time")
-json3 = unit.read_name_data(filename, "XYZ")
-print(json3[0][1][0])
-X1 = json3[0][0][0]
-Y1 = json3[0][0][1]
-Z1 = json3[0][0][2]
-X2 = json3[0][1][0]
-Y2 = json3[0][1][1]
-Z2 = json3[0][1][2]
-X3 = json3[0][2][0]
-Y3 = json3[0][2][1]
-Z3 = json3[0][2][2]
 
-print(X1,X2,X3,json1)
-# X=json3[0][0]
-# Y=json3[0][1]
-# print(cou.BINK(X, Y, 1), cou.BINK(X, Y, 2), cou.BINK(X, Y, 3), cou.BINK(X, Y, 4))
-# print(cou.BINK(80, 80, 1), cou.BINK(80, 80, 2), cou.BINK(80, 80, 3), cou.BINK(80, 80, 4))
+
+# json1 = unit.read_name_data(filename, "Tag_Addr")
+# json2 = unit.read_name_data(filename, "Blik_time")
+# json3 = unit.read_name_data(filename, "XYZ")
+# print(json3[0][1][0])
+# X1 = json3[0][0][0]
+# Y1 = json3[0][0][1]
+# Z1 = json3[0][0][2]
+# X2 = json3[0][1][0]
+# Y2 = json3[0][1][1]
+# Z2 = json3[0][1][2]
+# X3 = json3[0][2][0]
+# Y3 = json3[0][2][1]
+# Z3 = json3[0][2][2]
+#
+# print(X1,X2,X3,json1)
+# # X=json3[0][0]
+# # Y=json3[0][1]
+# # print(cou.BINK(X, Y, 1), cou.BINK(X, Y, 2), cou.BINK(X, Y, 3), cou.BINK(X, Y, 4))
+# # print(cou.BINK(80, 80, 1), cou.BINK(80, 80, 2), cou.BINK(80, 80, 3), cou.BINK(80, 80, 4))

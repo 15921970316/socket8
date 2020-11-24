@@ -75,7 +75,19 @@ def read_name_data2(filename, name):
         # 5 打印结果，并return返回
         f.close()
     return data.items()
+def read_name_data3(filename, name):
+    # 2 使用内置函数open打开外界传入的文件名
+    with open(filename, mode='r', encoding='utf-8') as f:
+        # 3 使用内置模块json加载文件
+        jsonData = json.load(f)
+        # 4 读取数据
+        data = jsonData.get(name)
 
+        # 5 打印结果，并return返回
+        f.close()
+
+    return data
+#标签数量和坐标配置
 def rw_xyz(count,rate):
     filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
     data = {}
@@ -102,19 +114,66 @@ def rw_xyz(count,rate):
             print("设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
             f.close()
     elif count==0:
-        with open(filename, 'r') as f:
-            json_data = json.load(f)
-            json_data['Blik_time']["HZ"] = rate
-        with open(filename, 'w') as f:
-            json.dump(json_data, f, ensure_ascii=False, indent=4)
-            dictList1 = []
-            for key in data:
-                dictList1.append('"{}":{}'.format(key, data[key]))
+        if rate > 0:
+            with open(filename, 'r') as f:
+                json_data = json.load(f)
 
-            print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
-            f.close()
+                json_data['Blik_time']["HZ"] = rate
+            with open(filename, 'w') as f:
+                json.dump(json_data, f, ensure_ascii=False, indent=4)
+                dictList1 = []
+                for key in data:
+                    dictList1.append('"{}":{}'.format(key, data[key]))
+                f.close()
+                print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
 
+        else:
+            with open(filename, 'r') as f:
+                json_data = json.load(f)
 
+                rate=json_data['Blik_time']["HZ"]
+                f.close()
+
+                print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
+
+#基站坐标配置
+# def anchor_cfg(count,rate):
+#     filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
+#     data = {}
+#     # data.values()
+#     w = 100000000000001
+#     if count!=0:
+#         for i in range(count):
+#
+#             a = "a{}".format(w)
+#             w+=1
+#             x = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
+#             y = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
+#             data[a] = [x, y, 0]
+#         with open(filename, 'r') as f:
+#             json_data = json.load(f)
+#             json_data['anchor_cfg'] = data
+#         with open(filename, 'w') as f:
+#             json.dump(json_data, f, ensure_ascii=False, indent=4)
+#             dictList1 = []
+#             for key in data:
+#                 dictList1.append('"{}":{}'.format(key, data[key]))
+#
+#             print("设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
+#             f.close()
+#     elif count==0:
+#         with open(filename, 'r') as f:
+#             json_data = json.load(f)
+#             json_data['Blik_time']["HZ"] = rate
+#         with open(filename, 'w') as f:
+#             json.dump(json_data, f, ensure_ascii=False, indent=4)
+#             dictList1 = []
+#             for key in data:
+#                 dictList1.append('"{}":{}'.format(key, data[key]))
+#
+#             print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
+#             f.close()
+#
 
 # #
 # filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Bilk_data.json"

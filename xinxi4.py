@@ -16,7 +16,11 @@ Rx_seq = 0
 tts = 0
 Blink_seq = 0
 Blink_tts = 0
-
+filename = unit.BASE_DIR + "\data\Data.json"
+anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
+list = []
+for i in anchor_cfg_list:
+    list.append(i)
 
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
@@ -117,14 +121,15 @@ def Blink_info():
 def CCPRX_Report4():
     Rxseq = -1
     x=0
+
     while True:
         while True:
             x=Rx_seq
             if Rxseq!=x:
                 try:
-                    t=tts+ cou.BINK(0, 100, 0)
+                    t = tts + cou.BINK(list[3][1][0], list[3][1][1], 0)
                     # print('CCPTX_Report4----', x, t)
-                    sk.send(CCPRX_Report(x, t))
+                    sk.send(CCPRX_Report(x, t, list[0][0]))
                     cou.time4=t
                     # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
                     Rxseq = Rx_seq
@@ -166,7 +171,7 @@ while True:
         filename = unit.BASE_DIR + "\data\Data.json"
         json = unit.get_json_data(filename)
         sk.connect((json["ip"], json['port']))
-        sk.send(zhuce())
+        sk.send(zhuce(list[3][0]))
         # print('次基站4注册信息包:', zhuce())
 
         ms = sk.recv(1024)

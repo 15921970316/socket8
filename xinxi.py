@@ -10,7 +10,11 @@ sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 import cou
 
 s = 0
-
+filename = unit.BASE_DIR + "\data\Data.json"
+anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
+list = []
+for i in anchor_cfg_list:
+    list.append(i)
 
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
@@ -66,15 +70,14 @@ def Blink_info():
         try:
             if sep > 255:
                 sep = 0
-                # print('我到了255了 bink1')
-            # t = time2 + cou.BINK(80, 80, 1)
+
             time2 = cou.time
 
             def blink():
                 n = 0
                 for Tag_Addr in json1:
-                    tt = cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1)
-                    t = cou.time + tt
+                    # tt = cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1)
+                    # t = time2 + tt
                     # print(BLINK_Report(sep, Tag_Addr[0], time2))
                     sk.send(BLINK_Report(sep, Tag_Addr[0], time2))
                     # print(Tag_Addr[0],Tag_Addr[1][0], Tag_Addr[1][1])
@@ -84,9 +87,11 @@ def Blink_info():
                 xinxi2.Blink_seq = sep
                 xinxi3.Blink_seq = sep
                 xinxi4.Blink_seq = sep
+                xinxi5.Blink_seq = sep
                 xinxi2.Blink_tts = time2
                 xinxi3.Blink_tts = time2
                 xinxi4.Blink_tts = time2
+                xinxi5.Blink_tts = time2
 
             t1 = threading.Thread(target=blink)
             t2 = threading.Thread(target=s)
@@ -116,15 +121,17 @@ def CCPTX_Report1():
 
             def ccp():
                 sk.send(CCPTX_Report(Txseq, t))
-                # print('主基站CCPTX：', CCPTX_Report(Txseq, t))
+                # print('主基站CCPTX：', Txseq, t)
 
             def s():
                 xinxi2.Rx_seq = Txseq
                 xinxi3.Rx_seq = Txseq
                 xinxi4.Rx_seq = Txseq
+                xinxi5.Rx_seq = Txseq
                 xinxi2.tts = t
                 xinxi3.tts = t
                 xinxi4.tts = t
+                xinxi5.tts = t
 
             t1 = threading.Thread(target=s)
             t2 = threading.Thread(target=ccp)
@@ -149,7 +156,8 @@ def time_x():
             t = 0b0000000000000000000000000000000000000000
             cou.time = 0
 
-        cou.time = cou.time
+        cou.time += 1000
+        # print(cou.time)
         t += 1
 
 
@@ -164,59 +172,84 @@ def xintiao2():
             Recv_info(ms)
             i += 1
             time.sleep(2)
+
 def anchor():
     sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    filename = unit.BASE_DIR + "\data\Data.json"
+    list1=[]
+    j=0
+    XML = ''
+    for i in anchor_cfg_list:
+        list1.append(i)
+        if j==0:
+            XML='<req type="anchor cfg"><anchor addr="{}" x="{}" y="{}" z="0" syncref="1" follow_addr="0" lag_delay="0"></anchor>'.format(list[0][0],list[0][1][0],list[0][1][1])
+        else:
+            XML2='<anchor addr="{}" x="{}" y="{}" z="0" ' \
+              'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor ' \
+              'addr="{}" rfdistance="0"/></anchor>'.format(list1[j][0],list1[j][1][0],list1[j][1][1],list1[0][0])
+            XML=XML+XML2
+        j+=1
+
+    XML=XML+'</req>'
+    print('基站数量为：{} \n对应的坐标值为：{}'.format(len(anchor_cfg_list),list1))
     json = unit.get_json_data(filename)
     sk.connect((json["ip"], json['chor_port']))
-    XML = '<req type="anchor cfg"><anchor addr="01aa6083cf111111" x="0"' \
-          ' y="0" z="0" syncref="1" follow_addr="0" lag_delay="0"></anchor>' \
-          '<anchor addr="01aa6083cf222222" x="100" y="0" z="0" ' \
-          'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor ' \
-          'addr="01aa6083cf111111" rfdistance="0"/></anchor>' \
-          '<anchor addr="01aa6083cf333333" x="100" y="100" z="0" syncref="0" ' \
-          'follow_addr="0" lag_delay="0"><syncrefanchor addr="01aa6083cf111111" ' \
-          'rfdistance="0"/></anchor><anchor addr="01aa6083cf444444" x="0" y="100" z="0" ' \
-          'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor addr="01aa6083cf111111" ' \
-          'rfdistance="0"/></anchor></req>'
+
+    #
+    #
+    # XML = '<req type="anchor cfg"><anchor addr="01aa6083cf111111" x="0"' \
+    #       ' y="0" z="0" syncref="1" follow_addr="0" lag_delay="0"></anchor>' \
+    #       '<anchor addr="01aa6083cf222222" x="100" y="0" z="0" ' \
+    #       'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor ' \
+    #       'addr="01aa6083cf111111" rfdistance="0"/></anchor>' \
+    #       '<anchor addr="01aa6083cf333333" x="100" y="100" z="0" syncref="0" ' \
+    #       'follow_addr="0" lag_delay="0"><syncrefanchor addr="01aa6083cf111111" ' \
+    #       'rfdistance="0"/></anchor><anchor addr="01aa6083cf444444" x="0" y="100" z="0" ' \
+    #       'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor addr="01aa6083cf111111" ' \
+    #       'rfdistance="0"/></anchor></req>'
+
     xml2 = '<req type="rtls start"/>'
-    sk.send(XML.encode('utf-8'))
-    sk.send(xml2.encode('utf-8'))
+    print(XML)
+    msg=sk.send(XML.encode('utf-8'))
+    msg = sk.recv(1024)
+
+    time.sleep(0.5)
+    msg=sk.send(xml2.encode('utf-8'))
     msg = sk.recv(1024)
     # print("基站配置结果：", str(msg, 'utf8'))
-while True:
-    try:
-        filename = unit.BASE_DIR + "\data\Data.json"
-        json = unit.get_json_data(filename)
-        sk.connect((json["ip"], json['port']))
-        t1 = threading.Thread(target=xintiao2)
-        t1.start()
+try:
+    filename = unit.BASE_DIR + "\data\Data.json"
+    json = unit.get_json_data(filename)
+    sk.connect((json["ip"], json['port']))
+    t1 = threading.Thread(target=xintiao2)
+    t1.start()
 
-        x = int(input('服务器连接成功！\n请输入需要随机的标签数量【0：使用文件里原数据 】：'))
-        rate = int(input('\n请输入标签频率HZ：'))
+    x = input('服务器连接成功！\n请输入需要随机的标签数量【直接按回车键则使用文件里原数据 】：')
+    rate = input('\n请输入标签频率HZ【直接按回车键则使用文件里原数据 】：')
+    if x =="":
+        x=0
+    if rate =="":
+        rate=0
+    unit.rw_xyz(int(x),int(rate))  # x随机生成10个坐标 rate标签频率
+    sk.send(zhuce(list[0][0]))
+    # print('主基站注册信息包:', zhuce())
+    ms = sk.recv(1024)
+    Recv_info(ms)
+    anchor()
+    ## 属于线程t的部分
+    t2 = threading.Thread(target=Blink_info)
+    t3 = threading.Thread(target=CCPTX_Report1)
+    t4 = threading.Thread(target=time_x)
+    t4.start()
+    import xinxi2, xinxi3, xinxi4,xinxi5
 
-        unit.rw_xyz(x,rate)  # x随机生成10个坐标 rate标签频率
-        sk.send(zhuce())
-        # print('主基站注册信息包:', zhuce())
-        ms = sk.recv(1024)
-        Recv_info(ms)
-        anchor()
-        ## 属于线程t的部分
-        t2 = threading.Thread(target=Blink_info)
-        t3 = threading.Thread(target=CCPTX_Report1)
-        t4 = threading.Thread(target=time_x)
-        t4.start()
-        import xinxi2, xinxi3, xinxi4
-
-        while True:
-            if cou.rtls == 1:
-                t3.start()
-                t2.start()
-                break
-        break
-    except Exception as e:
-        print(e)
+    while True:
+        if cou.rtls == 1:
+            t3.start()
+            t2.start()
+            break
+except Exception as e:
+    print(e)
 
 ## 属于线程t的部分
 # t1.join() # join是阻塞当前线程(此处的当前线程时主线程) 主线程直到Thread-1结束之后才结束

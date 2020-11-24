@@ -11,7 +11,11 @@ Rx_seq=0
 tts=0
 Blink_seq=0
 Blink_tts=0
-
+filename = unit.BASE_DIR + "\data\Data.json"
+anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
+list = []
+for i in anchor_cfg_list:
+    list.append(i)
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
     # print('分类接收打印引擎返回信息', ms)
@@ -25,7 +29,7 @@ def Recv_info(ms):
         elif ms[0] == 0x21:
             ...
 
-            # print("基站心跳包2：",hex(ms[0]))
+            print("基站心跳包2：",hex(ms[0]),ms)
         elif ms[0] == 0x43:
             print("配置基站2定位参数：",hex(ms[0]),hex(ms[1]),hex(ms[2]))
         elif ms[0] == 0x44:
@@ -96,14 +100,16 @@ def Blink_info():
 def CCPRX_Report2():
     Rxseq = -1
     x=0
+
+
     while True:
         while True:
             x=Rx_seq
             if Rxseq!=x:
                 try:
-                    t=tts+ cou.BINK(100, 0, 0)
+                    t=tts+ cou.BINK(list[1][1][0], list[1][1][1], 0)
                     # print('CCPTX_Report2----', x, t)
-                    sk.send(CCPRX_Report(x, t))
+                    sk.send(CCPRX_Report(x, t,list[0][0]))
                     cou.time2=t
                     # t = cou.time3 + int(0.15 * 499.2e6 * 128.0)
                     Rxseq = Rx_seq
@@ -146,7 +152,7 @@ while True:
         filename = unit.BASE_DIR + "\data\Data.json"
         json = unit.get_json_data(filename)
         sk.connect((json["ip"],json['port']))
-        sk.send(zhuce())
+        sk.send(zhuce(list[1][0]))
         # print('次基站2注册信息包', zhuce())
 
         ms = sk.recv(1024)
