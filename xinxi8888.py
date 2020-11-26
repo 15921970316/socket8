@@ -77,18 +77,32 @@ def Blink_info():
                 n = 0
                 for Tag_Addr in json1:
                     # tt = cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1)
+                    # t = time2 + tt
+                    # print(BLINK_Report(sep, Tag_Addr[0], time2))
                     sk.send(BLINK_Report(sep, Tag_Addr[0], time2))
+                    # print(Tag_Addr[0],Tag_Addr[1][0], Tag_Addr[1][1])
                     n += 1
-            def s():
-                xinxi2.Blink_seq = sep
-                xinxi3.Blink_seq = sep
-                xinxi4.Blink_seq = sep
-                xinxi5.Blink_seq = sep
-                xinxi2.Blink_tts = time2
-                xinxi3.Blink_tts = time2
-                xinxi4.Blink_tts = time2
-                xinxi5.Blink_tts = time2
 
+            def s():
+
+
+                def ad(id):
+                    st = xinxi8.chor()
+                    st.Blink_seq = sep
+                    st.Blink_seq = sep
+                    st.Blink_seq = sep
+                    st.Blink_seq = sep
+                    st.Blink_tts = time2
+                    st.Blink_tts = time2
+                    st.Blink_tts = time2
+                    st.Blink_tts = time2
+                    st.start(id)
+                t7 = threading.Thread(target=ad, args=(4,))
+                t8 = threading.Thread(target=ad, args=(3,))
+                t9 = threading.Thread(target=ad, args=(2,))
+                t8.start()
+                t7.start()
+                t9.start()
             t1 = threading.Thread(target=blink)
             t2 = threading.Thread(target=s)
             t1.start()
@@ -96,9 +110,11 @@ def Blink_info():
             sep += 1
             if sep == 256:
                 sep = 0
+            time.sleep(Blink_time)
+
         except    Exception as e:
             print('服务器连接失败--1111', e)
-        time.sleep(Blink_time)
+
 
 # 在启动TDOA定位后，所有的基站都会向定位引擎发送时间同步包接收报告
 def CCPTX_Report1():
@@ -118,14 +134,26 @@ def CCPTX_Report1():
                 # print('主基站CCPTX：', Txseq, t)
 
             def s():
-                xinxi2.Rx_seq = Txseq
-                xinxi3.Rx_seq = Txseq
-                xinxi4.Rx_seq = Txseq
-                xinxi5.Rx_seq = Txseq
-                xinxi2.tts = t
-                xinxi3.tts = t
-                xinxi4.tts = t
-                xinxi5.tts = t
+
+                def ad(id):
+
+                    st = xinxi8.CCPRX_Report3()
+                    st.Rx_seq = Txseq
+                    st.Rx_seq = Txseq
+                    st.Rx_seq = Txseq
+                    st.Rx_seq = Txseq
+                    st.tts = t
+                    st.tts = t
+                    st.tts = t
+                    st.tts = t
+                    st.start(id)
+                t7 = threading.Thread(target=ad, args=(4,))
+                t8 = threading.Thread(target=ad, args=(3,))
+                t9 = threading.Thread(target=ad, args=(2,))
+                t8.start()
+                t7.start()
+                t9.start()
+
 
             t1 = threading.Thread(target=s)
             t2 = threading.Thread(target=ccp)
@@ -185,12 +213,9 @@ def anchor():
         j+=1
 
     XML=XML+'</req>'
-    print('基站数量为：{} \n基站对应的坐标值为：{}'.format(len(anchor_cfg_list),list1))
+    print('基站数量为：{} \n对应的坐标值为：{}'.format(len(anchor_cfg_list),list1))
     json = unit.get_json_data(filename)
     sk.connect((json["ip"], json['chor_port']))
-
-    #
-    #
     # XML = '<req type="anchor cfg"><anchor addr="01aa6083cf111111" x="0"' \
     #       ' y="0" z="0" syncref="1" follow_addr="0" lag_delay="0"></anchor>' \
     #       '<anchor addr="01aa6083cf222222" x="100" y="0" z="0" ' \
@@ -202,29 +227,24 @@ def anchor():
     #       'syncref="0" follow_addr="0" lag_delay="0"><syncrefanchor addr="01aa6083cf111111" ' \
     #       'rfdistance="0"/></anchor></req>'
 
-    xml2 = '<req type="rtls start"/>'
+
     # print(XML)
-    msg=sk.send(XML.encode('utf-8'))
-    msg = sk.recv(1024)
+    sk.send(XML.encode('utf-8'))#发送基站坐标配置信息
+    sk.recv(1024)
 
     time.sleep(0.5)
-    msg=sk.send(xml2.encode('utf-8'))
-    msg = sk.recv(1024)
+    xml2 = '<req type="rtls start"/>'
+    sk.send(xml2.encode('utf-8'))#发送启动定位命令
+    sk.recv(1024)
     # print("基站配置结果：", str(msg, 'utf8'))
 try:
     filename = unit.BASE_DIR + "\data\Data.json"
     json = unit.get_json_data(filename)
     sk.connect((json["ip"], json['port']))
-    print('服务器连接成功！')
     t1 = threading.Thread(target=xintiao2)
     t1.start()
 
-
-    anchor()
-
-
-
-    x = input('\n请输入需要随机的标签数量【直接按回车键则使用文件里原数据 】：')
+    x = input('服务器连接成功！\n请输入需要随机的标签数量【直接按回车键则使用文件里原数据 】：')
     rate = input('\n请输入标签频率HZ【直接按回车键则使用文件里原数据 】：')
     if x =="":
         x=0
@@ -235,17 +255,30 @@ try:
     # print('主基站注册信息包:', zhuce())
     ms = sk.recv(1024)
     Recv_info(ms)
+    anchor()
     ## 属于线程t的部分
     t2 = threading.Thread(target=Blink_info)
     t3 = threading.Thread(target=CCPTX_Report1)
     t4 = threading.Thread(target=time_x)
     t4.start()
-    import xinxi2, xinxi3, xinxi4,xinxi5
+
+    import xinxi8
+    def ad(id):
+
+        st = xinxi8.chor()
+        st.start(id)
+
+    t7 = threading.Thread(target=ad, args=(4,))
+    t8 = threading.Thread(target=ad, args=(3,))
+    t9 = threading.Thread(target=ad, args=(2,))
 
     while True:
         if cou.rtls == 1:
             t3.start()
             t2.start()
+            t8.start()
+            t7.start()
+            t9.start()
             break
 except Exception as e:
     print(e)

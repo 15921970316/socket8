@@ -156,7 +156,6 @@ def xintiao2():
             sk.send(xintiao())
             ms = sk.recv(1024)
             Recv_info(ms)
-            print(ms)
             i += 1
             time.sleep(2)
         except Exception as e:

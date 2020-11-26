@@ -111,7 +111,7 @@ def rw_xyz(count,rate):
             for key in data:
                 dictList1.append('"{}":{}'.format(key, data[key]))
 
-            print("设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
+            print("\n设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
             f.close()
     elif count==0:
         if rate > 0:
@@ -125,7 +125,7 @@ def rw_xyz(count,rate):
                 for key in data:
                     dictList1.append('"{}":{}'.format(key, data[key]))
                 f.close()
-                print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
+                print("\n设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
 
         else:
             with open(filename, 'r') as f:
@@ -134,7 +134,7 @@ def rw_xyz(count,rate):
                 rate=json_data['Blik_time']["HZ"]
                 f.close()
 
-                print("设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
+                print("\n设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
 
 #基站坐标配置
 # def anchor_cfg(count,rate):

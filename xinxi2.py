@@ -29,7 +29,7 @@ def Recv_info(ms):
         elif ms[0] == 0x21:
             ...
 
-            print("基站心跳包2：",hex(ms[0]),ms)
+            # print("基站心跳包2：",hex(ms[0]),ms)
         elif ms[0] == 0x43:
             print("配置基站2定位参数：",hex(ms[0]),hex(ms[1]),hex(ms[2]))
         elif ms[0] == 0x44:
