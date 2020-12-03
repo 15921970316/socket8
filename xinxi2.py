@@ -60,38 +60,21 @@ def Blink_info():
     # Blink_time=1/float(json2[0][0])
     # print('2基站Blink发送频率为:{}HZ'.format(json2[0][0]))
     X=-1
-
+    aaa=0
     while True:
             sep_c = Blink_seq
             time1 = Blink_tts
-
             if   X != sep_c:
-                # time1 = cou.time2
+                # print(sep_c)
+                aaa+=1
                 try:
                     n = 0
                     for Tag_Addr in json1:
-                        tt = time1+ cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 2) - cou.BINK(
-                            Tag_Addr[1][0], Tag_Addr[1][1], 1)
+                        tt = time1+ cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 2,list) - cou.BINK(
+                            Tag_Addr[1][0], Tag_Addr[1][1], 1,list)
                         sk.send(BLINK_Report(sep_c, Tag_Addr[0], tt))
                         n += 1
-                    # def anchor1():
-                    #     tt =  cou.BINK(90, 90, 2) - cou.BINK(90, 90, 1)
-                    #     sk.send(BLINK_Report(sep_c, addr1, time1 + tt+1))
-                    #
-                    # def anchor2():
-                    #     tt =  cou.BINK(50, 50, 2) - cou.BINK(50, 50, 1)
-                    #     sk.send(BLINK_Report(sep_c, addr2, time1 + tt+4))
-                    #
-                    # def anchor3():
-                    #     tt = cou.BINK(20, 20, 2) - cou.BINK(20, 20, 1)
-                    #     sk.send(BLINK_Report(sep_c, addr3, time1 + tt+12))
-                    #
-                    # t1 = threading.Thread(target=anchor1)
-                    # t2 = threading.Thread(target=anchor2)
-                    # t3 = threading.Thread(target=anchor3)
-                    # t1.start()
-                    # t2.start()
-                    # t3.start()
+
                     X = sep_c
                 except Exception as e:
                     print('服务器连接失败--222', e)
@@ -100,14 +83,12 @@ def Blink_info():
 def CCPRX_Report2():
     Rxseq = -1
     x=0
-
-
     while True:
         while True:
             x=Rx_seq
             if Rxseq!=x:
                 try:
-                    t=tts+ cou.BINK(list[1][1][0], list[1][1][1], 0)
+                    t=tts+ cou.BINK(list[1][1][0], list[1][1][1], 0,list)
                     # print('CCPTX_Report2----', x, t)
                     sk.send(CCPRX_Report(x, t,list[0][0]))
                     cou.time2=t

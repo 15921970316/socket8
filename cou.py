@@ -24,55 +24,41 @@ Rx_seq=0
 Blink_seq=0
 tts=0
 #坐标时间戳函数  X代表横坐标 Y代表纵坐标 id代表基站编号 id为零代表求该基站到原点（0,0）的距离的时间戳
-def BINK(x,y,id):
-    if id==1:
-        return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
-    elif id==2:
-        return int( math.sqrt((100-x)*(100-x)+y*y) /299702547* 499.2e6 * 128.0)
-    elif id==3:
-        return int( math.sqrt((100-x)*(100-x)+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
-    elif id==4:
-        return int( math.sqrt(x*x+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
-
-    elif id==0 and y==0:
-        return int((x/299702547)* (499.2e6 * 128.0))
-    elif id==0 and x==0:
-        return int((y/299702547)* (499.2e6 * 128.0))
-    elif id==0 and x!=0 and y!=0:
-        return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
+# def BINK(x,y,id):
+#     if id==1:
+#         return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
+#     elif id==2:
+#         return int( math.sqrt((100-x)*(100-x)+y*y) /299702547* 499.2e6 * 128.0)
+#     elif id==3:
+#         return int( math.sqrt((100-x)*(100-x)+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
+#     elif id==4:
+#         return int( math.sqrt(x*x+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
+#
+#     elif id==0 and y==0:
+#         return int((x/299702547)* (499.2e6 * 128.0))
+#     elif id==0 and x==0:
+#         return int((y/299702547)* (499.2e6 * 128.0))
+#     elif id==0 and x!=0 and y!=0:
+#         return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
 # a=55
 
-filename = unit.BASE_DIR + "\data\Data.json"
-anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
-list=[]
-for i in anchor_cfg_list:
-    list.append(i)
+
 # print(list[0][1][0],list[0][1][1])
 # print(list[1][1][0],list[1][1][1])
 # print(list[2][1][0],list[2][1][1])
 # print(list[3][1][0],list[3][1][1])
-def BINK(x,y,id):
 
-    # if id>0:
-    #     # 标签到各ID基站的距离的时间戳
-    #     return int( math.sqrt((list[id-1][1][0]-x)*(list[id-1][1][0]-x)+(list[id-1][1][1]-y)*(list[id-1][1][1]-y)) /299702547* 499.2e6 * 128.0)
+def BINK(x,y,id,list):
 
-    # for i in list:
-    #     print(i)
-    # if id==1:
-    #     return int( math.sqrt((100-x)*(100-x)+(100-y)*(100-y)) /299702547* 499.2e6 * 128.0)
+    #
+
     if id==0  :
         # 返回主基站到ID次基站的距离时间戳
         return int(( math.sqrt((list[0][1][0]-x)*(list[0][1][0]-x)+(list[0][1][1]-y)*(list[0][1][1]-y)) /299702547)*( 499.2e6 * 128.0))
     else:
+        # 标签到ID基站的距离的时间戳
         return int( math.sqrt((list[id-1][1][0]-x)*(list[id-1][1][0]-x)+(list[id-1][1][1]-y)*(list[id-1][1][1]-y)) /299702547* 499.2e6 * 128.0)
 
-    # elif id==0 and x==0:
-    #     return int((y/299702547)* (499.2e6 * 128.0))
-    # elif id==0 and x!=0 and y!=0:
-    #     return int( math.sqrt(x*x+y*y) /299702547* 499.2e6 * 128.0)
-# # print(abs(a))
-# print(BINK(5, 2, 1),BINK(5, 2, 2),BINK(5, 2, 3))
 
 
 def sqr(d):

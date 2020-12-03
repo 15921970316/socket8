@@ -19,9 +19,6 @@ anchor_cfg_list = unit.read_name_data2(filename, "anchor_cfg")
 list = []
 for i in anchor_cfg_list:
     list.append(i)
-import datetime
-
-
 # 分类接受打印引擎返回信息
 def Recv_info(ms):
     # print('分类接收打印引擎返回信息', ms)
@@ -58,16 +55,11 @@ def Recv_info(ms):
     except Exception as e:
         print('服务器连接失败--2', e)
 
-
 # 标签信息 无返回值
 def Blink_info():
     # 读取标签的addr文件
     filename = unit.BASE_DIR + "\data\Data.json"
     json1 = unit.read_name_data2(filename, "Tag_Addr_XYZ")
-    # json2 = unit.read_name_data(filename, "Blik_time")
-    # Blink_time = 1 / float(json2[0][0])
-    # print('3基站Blink发送频率为:{}HZ'.format(json2[0][0]))
-    #
     X = -1
     while True:
         sep_c = Blink_seq
@@ -78,7 +70,7 @@ def Blink_info():
             try:
                 n=0
                 for Tag_Addr in json1:
-                    tt =  time1 + cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 3) - cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1)
+                    tt =  time1 + cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 3,list) - cou.BINK(Tag_Addr[1][0], Tag_Addr[1][1], 1,list)
                     sk.send(BLINK_Report(sep_c, Tag_Addr[0], tt))
                     n += 1
                 X = sep_c
@@ -98,7 +90,7 @@ def CCPRX_Report3():
             sep_c = Rx_seq
             if sep_c != X:
                 try:
-                    t = tts + cou.BINK(list[2][1][0], list[2][1][1], 0)
+                    t = tts + cou.BINK(list[2][1][0], list[2][1][1], 0,list)
                     sk.send(CCPRX_Report(sep_c, t, list[0][0]))
                     # sk.send(CCPRX_Report(sep_c, t))
                     # print('次基站CCPRX：', CCPRX_Report(sep_c, t))

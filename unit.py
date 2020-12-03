@@ -87,19 +87,63 @@ def read_name_data3(filename, name):
         f.close()
 
     return data
-#标签数量和坐标配置
+
+#自动生成基站数量和坐标
+def chor_count(count ):
+    filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
+    data = {}
+    # data.values()
+    w   = 101
+    if count != 0:
+        for i in range(count):
+            a = "{}{}".format(rangs(13),w)
+            w += 1
+            x = random.randrange(0, 300, 1)  # 随机产生1-100，间隔为1随机整数
+            y = random.randrange(0, 300, 1)  # 随机产生1-100，间隔为1随机整数
+            data[a] = [x, y, 0]
+        with open(filename, 'r') as f:
+            json_data = json.load(f)
+            json_data['anchor_cfg'] = data
+        with open(filename, 'w') as f:
+            json.dump(json_data, f, ensure_ascii=False, indent=4)
+            dictList1 = []
+            for key in data:
+                dictList1.append('"{}":{}'.format(key, data[key]))
+
+            print("\n设置为使用 系统随机生成的 {} 个基站和坐标分别为：".format(  count), dictList1)
+            f.close()
+    elif count == 0:
+
+            with open(filename, 'r') as f:
+                json_data = json.load(f)
+
+                print("\n设置为使用 系统已存在的 {} 个基站和坐标分别为：".format( len(json_data['Tag_Addr_XYZ'])),json_data['anchor_cfg'])
+            # return json_data['anchor_cfg']
+
+# 生成随机字符组合
+def rangs(m):
+    ret = ""
+    for i in range(m):
+        num = random.randint(0, 9)
+        # num = chr(random.randint(48,57))#ASCII表示数字
+        letter = chr(random.randint(97, 102))  # 取小写字母
+        Letter = chr(random.randint(65, 70))  # 取大写字母
+        s = str(random.choice([num, letter,Letter]))
+        ret += s
+    return ret
+#标签数量和坐标的自动配置
 def rw_xyz(count,rate):
     filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
     data = {}
     # data.values()
-    w = 100000000000001
+    w = 1001
     if count!=0:
         for i in range(count):
 
-            a = "a{}".format(w)
+            a = "abcdefaaaaaa{}".format(w)
             w+=1
-            x = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
-            y = random.randrange(0, 100, 1)  # 随机产生1-100，间隔为1随机整数
+            x = random.randrange(0, 300, 1)  # 随机产生1-100，间隔为1随机整数
+            y = random.randrange(0, 300, 1)  # 随机产生1-100，间隔为1随机整数
             data[a] = [x, y, 0]
         with open(filename, 'r') as f:
             json_data = json.load(f)
@@ -113,6 +157,7 @@ def rw_xyz(count,rate):
 
             print("\n设置的标签频率为：{} HZ.\n系统随机生成的 {} 个标签和坐标分别为：".format(rate, count), dictList1)
             f.close()
+            # return dictList1
     elif count==0:
         if rate > 0:
             with open(filename, 'r') as f:
@@ -126,7 +171,7 @@ def rw_xyz(count,rate):
                     dictList1.append('"{}":{}'.format(key, data[key]))
                 f.close()
                 print("\n设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
-
+                # return json_data['Tag_Addr_XYZ']
         else:
             with open(filename, 'r') as f:
                 json_data = json.load(f)
@@ -135,7 +180,7 @@ def rw_xyz(count,rate):
                 f.close()
 
                 print("\n设置的标签频率为：{} HZ.\n已存在的 {} 个标签和坐标分别为：".format(rate ,len(json_data['Tag_Addr_XYZ'])), json_data['Tag_Addr_XYZ'])
-
+                # return  json_data['Tag_Addr_XYZ']
 #基站坐标配置
 # def anchor_cfg(count,rate):
 #     filename = os.path.dirname(os.path.abspath(__file__)) + "\data\Data.json"
